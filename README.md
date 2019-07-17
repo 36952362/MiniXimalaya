@@ -7,4 +7,4 @@
 
 ## [第一步: 创建项目并上传到GitHub](./doc/001-CreateProjectAndUploadToGitHub.md)
 
-## [第二步：集成喜马拉雅SDK并验证](./doc/002-IntegrateSDKAndVerify.md)
+## [第二步: 集成喜马拉雅SDK并验证](./doc/002-IntegrateSDKAndVerify.md)
