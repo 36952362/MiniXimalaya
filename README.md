@@ -5,6 +5,6 @@
 
 在此会记录在开发过程中遇到的问题和解决方案。
 
-## [第一步: 创建项目并上传到GitHub](./doc/1.创建项目并上传到GitHub.md)
+## [第一步: 创建项目并上传到GitHub](./doc/001-CreateProjectAndUploadToGitHub.md)
 
 ## [第二步：集成喜马拉雅SDK并验证]()
