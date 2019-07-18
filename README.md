@@ -5,6 +5,10 @@
 
 在此会记录在开发过程中遇到的问题和解决方案。
 
-## [第一步: 创建项目并上传到GitHub](./doc/001-CreateProjectAndUploadToGitHub.md)
+## [001: 创建项目并上传到GitHub](./doc/001-CreateProjectAndUploadToGitHub.md)
 
-## [第二步: 集成喜马拉雅SDK并验证](./doc/002-IntegrateSDKAndVerify.md)
+## [002: 集成喜马拉雅SDK并验证](./doc/002-IntegrateSDKAndVerify.md)
+
+## [003: 编写属于自己的Log输出控制](./doc/003-LogUtil.md)
+
+## [004: MagicIndicator项目下载并演示](./doc/004-MagicIndicatorDemo.md)

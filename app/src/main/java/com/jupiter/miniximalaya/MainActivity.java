@@ -5,6 +5,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
 
+import com.jupiter.miniximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.category.Category;
@@ -29,13 +30,15 @@ public class MainActivity extends AppCompatActivity {
             public void onSuccess(CategoryList object) {
                 List<Category> categories = object.getCategories();
                 for(Category category : categories){
-                    Log.i(TAG, category.getCategoryName());
+                    //Log.i(TAG, category.getCategoryName());
+                    LogUtil.i(TAG, category.getCategoryName());
                 }
             }
 
             @Override
             public void onError(int code, String message) {
-                Log.e(TAG, "Get Categories failed, code:" + code + ", message: " + message);
+                //Log.e(TAG, "Get Categories failed, code:" + code + ", message: " + message);
+                LogUtil.i(TAG, "Get Categories failed, code:" + code + ", message: " + message);
             }
         });
     }

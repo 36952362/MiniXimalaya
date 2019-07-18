@@ -1,7 +1,8 @@
-package com.jupiter.miniximalaya;
+package com.jupiter.miniximalaya.base;
 
 import android.app.Application;
 
+import com.jupiter.miniximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 
@@ -22,5 +23,7 @@ public class BaseApplication extends Application {
             mXimalaya.setPackid("com.ximalaya.qunfeng");
             mXimalaya.init(this ,mAppSecret);
         }
+
+        LogUtil.init(getPackageName(), false);
     }
 }
