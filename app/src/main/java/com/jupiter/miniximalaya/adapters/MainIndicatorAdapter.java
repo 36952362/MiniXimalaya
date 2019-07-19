@@ -33,14 +33,20 @@ public class MainIndicatorAdapter extends CommonNavigatorAdapter {
     public IPagerTitleView getTitleView(Context context, final int index) {
         //创建View
         ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
+
         //设置要显示的内容
         colorTransitionPagerTitleView.setText(titiles[index]);
+
         //设置一般情况下颜色为灰色
         colorTransitionPagerTitleView.setNormalColor(Color.parseColor("#aaffffff"));
+
         //设置选中情况下颜色为黑色
         colorTransitionPagerTitleView.setSelectedColor(Color.parseColor("#ffffff"));
+
         //设置字体大小
         colorTransitionPagerTitleView.setTextSize(18);
+
+        //点击指示器切换ViewPage中的内容
         colorTransitionPagerTitleView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
