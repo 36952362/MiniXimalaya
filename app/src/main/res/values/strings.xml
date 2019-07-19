@@ -1,5 +1,8 @@
 <resources>
     <string name="app_name">迷你喜马拉雅</string>
+    <string name="recommend">推荐</string>
+    <string name="subscription">订阅</string>
+    <string name="history">历史</string>
     <string-array name="indicate_title">
         <item>推荐</item>
         <item>订阅</item>

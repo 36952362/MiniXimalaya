@@ -1,4 +1,4 @@
-package com.jupiter.miniximalaya.adaptors;
+package com.jupiter.miniximalaya.adapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -6,7 +6,6 @@ import android.view.View;
 
 import androidx.viewpager.widget.ViewPager;
 
-import com.jupiter.miniximalaya.MainActivity;
 import com.jupiter.miniximalaya.R;
 
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
@@ -14,14 +13,13 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerInd
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.IPagerTitleView;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.indicators.LinePagerIndicator;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorTransitionPagerTitleView;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.SimplePagerTitleView;
 
-public class IndicatorAdapter extends CommonNavigatorAdapter {
+public class MainIndicatorAdapter extends CommonNavigatorAdapter {
 
     private final String[] titiles;
     private ViewPager mainViewPager ;
 
-    public IndicatorAdapter(Context context, ViewPager mainViewPager) {
+    public MainIndicatorAdapter(Context context, ViewPager mainViewPager) {
         titiles = context.getResources().getStringArray(R.array.indicate_title);
         this.mainViewPager = mainViewPager;
     }

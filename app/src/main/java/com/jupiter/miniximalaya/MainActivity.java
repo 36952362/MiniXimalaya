@@ -1,21 +1,20 @@
 package com.jupiter.miniximalaya;
 
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
-import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.FragmentActivity;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.ViewPager;
 
-import com.jupiter.miniximalaya.adaptors.IndicatorAdapter;
+import com.jupiter.miniximalaya.adapters.MainContentAdapter;
+import com.jupiter.miniximalaya.adapters.MainIndicatorAdapter;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
 import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
-import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends FragmentActivity {
 
     private static final String TAG = "MainActivity";
     private MagicIndicator mainIndicator;
@@ -43,10 +42,17 @@ public class MainActivity extends AppCompatActivity {
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
 
-        IndicatorAdapter indicatorAdapter = new IndicatorAdapter(this, mainViewPager);
+        MainIndicatorAdapter mainIndicatorAdapter = new MainIndicatorAdapter(this, mainViewPager);
 
-        commonNavigator.setAdapter(indicatorAdapter);
+        //创建内容适配器
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        MainContentAdapter mainContentAdapter = new MainContentAdapter(fragmentManager);
+        mainViewPager.setAdapter(mainContentAdapter);
+
+        commonNavigator.setAdapter(mainIndicatorAdapter);
         mainIndicator.setNavigator(commonNavigator);
         ViewPagerHelper.bind(mainIndicator, mainViewPager);
+
+
     }
 }
