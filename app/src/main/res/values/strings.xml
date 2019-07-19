@@ -1,3 +1,8 @@
 <resources>
-    <string name="app_name">MiniXimalaya</string>
+    <string name="app_name">迷你喜马拉雅</string>
+    <string-array name="indicate_title">
+        <item>推荐</item>
+        <item>订阅</item>
+        <item>历史</item>
+    </string-array>
 </resources>

@@ -1,45 +1,52 @@
 package com.jupiter.miniximalaya;
 
-import androidx.appcompat.app.AppCompatActivity;
-
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
-import android.util.Log;
+import android.view.View;
 
-import com.jupiter.miniximalaya.utils.LogUtil;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
-import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
-import com.ximalaya.ting.android.opensdk.model.category.Category;
-import com.ximalaya.ting.android.opensdk.model.category.CategoryList;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import com.jupiter.miniximalaya.adaptors.IndicatorAdapter;
+
+import net.lucode.hackware.magicindicator.MagicIndicator;
+import net.lucode.hackware.magicindicator.ViewPagerHelper;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.CommonNavigator;
+import net.lucode.hackware.magicindicator.buildins.commonnavigator.abs.CommonNavigatorAdapter;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "MainActivity";
+    private MagicIndicator mainIndicator;
+    private ViewPager mainViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Map<String, String> map = new HashMap<String, String>();
-        CommonRequest.getCategories(map, new IDataCallBack<CategoryList>() {
-            @Override
-            public void onSuccess(CategoryList object) {
-                List<Category> categories = object.getCategories();
-                for(Category category : categories){
-                    //Log.i(TAG, category.getCategoryName());
-                    LogUtil.i(TAG, category.getCategoryName());
-                }
-            }
+        initView();
 
-            @Override
-            public void onError(int code, String message) {
-                //Log.e(TAG, "Get Categories failed, code:" + code + ", message: " + message);
-                LogUtil.i(TAG, "Get Categories failed, code:" + code + ", message: " + message);
-            }
-        });
+        initIndicate();
+    }
+
+    private void initView() {
+
+        mainIndicator = findViewById(R.id.main_indicator);
+        mainViewPager = findViewById(R.id.main_viewpager);
+    }
+
+    private void initIndicate() {
+
+        mainIndicator.setBackgroundColor(getResources().getColor(R.color.main_color));
+
+        CommonNavigator commonNavigator = new CommonNavigator(this);
+
+        IndicatorAdapter indicatorAdapter = new IndicatorAdapter(this, mainViewPager);
+
+        commonNavigator.setAdapter(indicatorAdapter);
+        mainIndicator.setNavigator(commonNavigator);
+        ViewPagerHelper.bind(mainIndicator, mainViewPager);
     }
 }

@@ -1,4 +1,4 @@
-# MiniXimalaya
+# 迷你喜马拉雅项目
 这个是一个Android练习项目，通过使用喜马拉雅SDK来开发一个微型类似于喜马拉雅App的Android手机程序。
 
 这个项目是跟着B站一位播主([程序员拉大锯](https://space.bilibili.com/44272436/)）的视频教学一步一步学习，通过学习来了解和总结Android的知识和开发流程。
@@ -12,3 +12,5 @@
 ## [003: 编写属于自己的Log输出控制](./doc/003-LogUtil.md)
 
 ## [004: MagicIndicator项目下载并演示](./doc/004-MagicIndicatorDemo.md)
+
+## [005: 布局主界面](./doc/005-mainActivityLayoout.md)
