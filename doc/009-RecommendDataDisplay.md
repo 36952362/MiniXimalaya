@@ -221,3 +221,4 @@
 	</androidx.constraintlayout.widget.ConstraintLayout>
 
 ##4. 效果图
+![推荐列表内容](./pics/RecommendContentDisplay.png)

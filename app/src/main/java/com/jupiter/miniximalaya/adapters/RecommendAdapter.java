@@ -60,7 +60,7 @@ public class RecommendAdapter  extends RecyclerView.Adapter<RecommendAdapter.Inn
             albumTitle.setText(album.getAlbumTitle());
             albumDesc.setText(album.getAlbumIntro());
             albumPlayCount.setText(album.getPlayCount() + "");
-            albumTrackCount.setText(album.getFreeTrackCount() + "");
+            albumTrackCount.setText(album.getIncludeTrackCount() + "");
         }
     }
 }
