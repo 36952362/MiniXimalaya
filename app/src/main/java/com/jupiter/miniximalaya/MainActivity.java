@@ -42,6 +42,9 @@ public class MainActivity extends FragmentActivity {
 
         CommonNavigator commonNavigator = new CommonNavigator(this);
 
+        //平均布局条目的位置
+        commonNavigator.setAdjustMode(true);
+
         MainIndicatorAdapter mainIndicatorAdapter = new MainIndicatorAdapter(this, mainViewPager);
 
         //创建内容适配器

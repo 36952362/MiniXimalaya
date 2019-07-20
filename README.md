@@ -13,6 +13,10 @@
 
 ##[004: MagicIndicator项目下载并演示](./doc/004-MagicIndicatorDemo.md)
 
-##[005: 布局主界面](./doc/005-mainActivityLayoout.md)
+##[005: 布局主界面](./doc/005-MainActivityLayoout.md)
 
-##[006:ViewPager数据展示](./doc/006-viewPagerDataDisplay.md)
+##[006:ViewPager数据展示](./doc/006-ViewPagerDataDisplay.md)
+
+##[007:导航栏布局调整](./doc/007-NavigationAdjust.md)
+
+##[008:获取推荐列表](./doc/008-RetrieveRecommendData.md)

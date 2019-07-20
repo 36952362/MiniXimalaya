@@ -129,4 +129,4 @@
 	}
 	
 ##7. 最终效果
-![效果图](./pics/contentDisplay.png)
+![效果图](./pics/ContentDisplay.png)

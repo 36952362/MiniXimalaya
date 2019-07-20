@@ -113,4 +113,4 @@ styles.xml:
         <item name="colorAccent">@color/main_color</item>
     </style>
 ##7. 最终效果
-![效果图](./pics/mainActivity.png)
+![效果图](./pics/MainActivity.png)
