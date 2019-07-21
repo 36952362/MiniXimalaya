@@ -1,12 +1,23 @@
 package com.jupiter.miniximalaya.base;
 
 import android.app.Application;
+import android.os.Handler;
 
 import com.jupiter.miniximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 
+import lombok.Data;
+
+@Data
 public class BaseApplication extends Application {
+
+    private static Handler handler = null;
+
+    public static Handler getHandler(){
+        return  handler;
+    }
+
     @Override
     public void onCreate() {
         super.onCreate();
@@ -23,6 +34,8 @@ public class BaseApplication extends Application {
             mXimalaya.setPackid("com.ximalaya.qunfeng");
             mXimalaya.init(this ,mAppSecret);
         }
+
+        handler = new Handler();
 
         LogUtil.init(getPackageName(), false);
     }

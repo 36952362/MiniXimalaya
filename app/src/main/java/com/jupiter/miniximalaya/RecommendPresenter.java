@@ -39,6 +39,7 @@ public class RecommendPresenter implements IRecommendPresenter {
     @Override
     public void getRecommendList() {
 
+        updateLoading();
         Map<String, String> map = new HashMap<String, String>();
         map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMMEND_COUNT + "");
         CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
@@ -47,35 +48,44 @@ public class RecommendPresenter implements IRecommendPresenter {
                 LogUtil.i(TAG, "getGuessLikeAlbum success");
                 if(null != gussLikeAlbumList){
                     handleRecommendList(gussLikeAlbumList.getAlbumList());
-                    //recommendAdapter.updateData(gussLikeAlbumList.getAlbumList());
                 }
             }
 
             @Override
             public void onError(int i, String s) {
-                LogUtil.e(TAG, "getGuessLikeAlbum failed");
-                LogUtil.e(TAG, "errorCode: " + i + ", reason:" + s);
+                handleRecommendError(i, s);
             }
         });
 
     }
 
+    private void updateLoading(){
+        for (IRecommendCallback recommendCallback : recommendCallbackList) {
+            recommendCallback.onLoading();
+        }
+    }
+
+    private void handleRecommendError(int i, String s) {
+        for (IRecommendCallback recommendCallback : recommendCallbackList) {
+            recommendCallback.onError(i, s);
+        }
+    }
+
     private void handleRecommendList(List<Album> albumList) {
+
+        if(albumList.isEmpty()){
+            for (IRecommendCallback recommendCallback : recommendCallbackList) {
+                recommendCallback.onEmpty();
+            }
+            return;
+        }
+
         //通知UI更新
         for(IRecommendCallback recommendCallback : recommendCallbackList){
             recommendCallback.onRecommendListLoaded(albumList);
         }
     }
 
-    @Override
-    public void pullToRefresh() {
-
-    }
-
-    @Override
-    public void loadMore() {
-
-    }
 
     @Override
     public void registerCallback(IRecommendCallback recommendCallback) {

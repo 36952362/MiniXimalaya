@@ -10,10 +10,14 @@ public interface IRecommendCallback {
     //获取到数据后的回调函数
     public void onRecommendListLoaded(List<Album> result);
 
-    //加载更多
-    public void onLoadMore(List<Album> result);
+    //获取数据错误的处理
+    public void onError(int errorCode, String desc);
+
+    //没有获取到数据的处理
+    public void onEmpty();
+
+    //获取中
+    public void onLoading();
 
 
-    //下拉刷新更多的数据
-    public void onRefreshMore(List<Album> result);
 }
