@@ -3,7 +3,7 @@
 
 这个项目是跟着B站一位播主([程序员拉大锯](https://space.bilibili.com/44272436/)）的视频教学一步一步学习，通过学习来了解和总结Android的知识和开发流程。
 
-在此会记录在开发过程中遇到的问题和解决方案。
+在此记录在开发过程中遇到的问题和解决方案。
 
 ##[001: 创建项目并上传到GitHub](./doc/001-CreateProjectAndUploadToGitHub.md)
 
@@ -21,3 +21,4 @@
 
 ##[008:获取推荐列表](./doc/008-RetrieveRecommendData.md)
 ##[009:推荐列表展示](./doc/009-RecommendDataDisplay.md)
+##[010:推荐界面优化](./doc/010-RecommendUITunning.md)
