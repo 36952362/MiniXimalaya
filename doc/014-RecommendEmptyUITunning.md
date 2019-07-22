@@ -1,0 +1,40 @@
+#推荐空页面优化
+
+##1. 重新设计推荐空页面的布局文件
+
+**fragment_empty_view.xml:**
+
+	<?xml version="1.0" encoding="utf-8"?>
+	<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	    xmlns:app="http://schemas.android.com/apk/res-auto"
+	    android:layout_width="match_parent"
+	    android:layout_height="match_parent">
+	
+	    <ImageView
+	        android:id="@+id/iv_recommend_empty"
+	        android:layout_width="45dp"
+	        android:layout_height="45dp"
+	        android:contentDescription="@string/recommend_empty"
+	        android:src="@mipmap/content_empty"
+	        app:layout_constraintVertical_chainStyle="packed"
+	        app:layout_constraintTop_toTopOf="parent"
+	        app:layout_constraintStart_toStartOf="parent"
+	        app:layout_constraintEnd_toEndOf="parent"
+	        app:layout_constraintBottom_toTopOf="@id/tv_recommend_empty"
+	        />
+	
+	    <TextView
+	        android:id="@+id/tv_recommend_empty"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:layout_marginTop="8dp"
+	        android:textSize="12sp"
+	        android:text="@string/recommend_empty"
+	        app:layout_constraintBottom_toBottomOf="parent"
+	        app:layout_constraintEnd_toEndOf="parent"
+	        app:layout_constraintStart_toStartOf="parent"
+	        app:layout_constraintTop_toBottomOf="@id/iv_recommend_empty" />
+	</androidx.constraintlayout.widget.ConstraintLayout>
+
+##2. 最终效果图
+![错误页面](./pics/RecommendEmptyTunningUI.png)

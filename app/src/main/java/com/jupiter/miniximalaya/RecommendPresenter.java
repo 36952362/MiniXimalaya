@@ -73,7 +73,6 @@ public class RecommendPresenter implements IRecommendPresenter {
     }
 
     private void handleRecommendList(List<Album> albumList) {
-
         if(albumList.isEmpty()){
             for (IRecommendCallback recommendCallback : recommendCallbackList) {
                 recommendCallback.onEmpty();
