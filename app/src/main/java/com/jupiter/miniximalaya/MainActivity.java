@@ -26,36 +26,29 @@ public class MainActivity extends FragmentActivity {
         setContentView(R.layout.activity_main);
 
         initView();
-
         initIndicate();
     }
 
     private void initView() {
-
         mainIndicator = findViewById(R.id.main_indicator);
         mainViewPager = findViewById(R.id.main_viewpager);
     }
 
     private void initIndicate() {
 
-        mainIndicator.setBackgroundColor(getResources().getColor(R.color.main_color));
-
+        //对导航栏的设置
         CommonNavigator commonNavigator = new CommonNavigator(this);
-
-        //平均布局条目的位置
+        //条目位置平均放置
         commonNavigator.setAdjustMode(true);
-
         MainIndicatorAdapter mainIndicatorAdapter = new MainIndicatorAdapter(this, mainViewPager);
+        commonNavigator.setAdapter(mainIndicatorAdapter);
+        mainIndicator.setNavigator(commonNavigator);
 
         //创建内容适配器
         FragmentManager fragmentManager = getSupportFragmentManager();
         MainContentAdapter mainContentAdapter = new MainContentAdapter(fragmentManager);
         mainViewPager.setAdapter(mainContentAdapter);
-
-        commonNavigator.setAdapter(mainIndicatorAdapter);
-        mainIndicator.setNavigator(commonNavigator);
+        
         ViewPagerHelper.bind(mainIndicator, mainViewPager);
-
-
     }
 }

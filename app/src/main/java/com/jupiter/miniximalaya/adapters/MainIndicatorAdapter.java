@@ -16,17 +16,17 @@ import net.lucode.hackware.magicindicator.buildins.commonnavigator.titles.ColorT
 
 public class MainIndicatorAdapter extends CommonNavigatorAdapter {
 
-    private final String[] titiles;
+    private final String[] titles;
     private ViewPager mainViewPager ;
 
     public MainIndicatorAdapter(Context context, ViewPager mainViewPager) {
-        titiles = context.getResources().getStringArray(R.array.indicate_title);
+        titles = context.getResources().getStringArray(R.array.indicate_title);
         this.mainViewPager = mainViewPager;
     }
 
     @Override
     public int getCount() {
-        return titiles == null ? 0 : titiles.length;
+        return titles == null ? 0 : titles.length;
     }
 
     @Override
@@ -35,7 +35,7 @@ public class MainIndicatorAdapter extends CommonNavigatorAdapter {
         ColorTransitionPagerTitleView colorTransitionPagerTitleView = new ColorTransitionPagerTitleView(context);
 
         //设置要显示的内容
-        colorTransitionPagerTitleView.setText(titiles[index]);
+        colorTransitionPagerTitleView.setText(titles[index]);
 
         //设置一般情况下颜色为灰色
         colorTransitionPagerTitleView.setNormalColor(Color.parseColor("#aaffffff"));

@@ -11,7 +11,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jupiter.miniximalaya.R;
 import com.jupiter.miniximalaya.RecommendPresenter;
 import com.jupiter.miniximalaya.adapters.RecommendAdapter;
-import com.jupiter.miniximalaya.base.BaseFragement;
+import com.jupiter.miniximalaya.base.BaseFragment;
 import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
 import com.jupiter.miniximalaya.utils.DPPXConverter;
 import com.jupiter.miniximalaya.views.UILoader;
@@ -19,7 +19,7 @@ import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import java.util.List;
 
-public class RecommendFragment extends BaseFragement implements IRecommendCallback {
+public class RecommendFragment extends BaseFragment implements IRecommendCallback {
 
     private static final  String TAG = "RecommendFragment";
     private View successView;
@@ -29,7 +29,7 @@ public class RecommendFragment extends BaseFragement implements IRecommendCallba
     private UILoader uiLoader;
 
     @Override
-    protected View onSubViewLoaded() {
+    protected View onCreateSubView() {
 
         uiLoader = new UILoader(getContext()) {
             @Override
@@ -39,18 +39,24 @@ public class RecommendFragment extends BaseFragement implements IRecommendCallba
             }
         };
 
+        getRecommendDataAndDisplay();
+
+        //如果已经绑定了，先进行解绑
+        if(uiLoader.getParent() instanceof ViewGroup){
+            ((ViewGroup) uiLoader.getParent()).removeView(uiLoader);
+        }
+
+        return uiLoader;
+    }
+
+    private void getRecommendDataAndDisplay() {
+
         //获取逻辑层对象
         recommendPresenter = RecommendPresenter.getsInstance();
 
         //注册回调
         recommendPresenter.registerCallback(this);
         recommendPresenter.getRecommendList();
-
-        if(uiLoader.getParent() instanceof ViewGroup){
-            ((ViewGroup) uiLoader.getParent()).removeView(uiLoader);
-        }
-
-        return uiLoader;
     }
 
     private View createSuccessView() {
@@ -80,9 +86,8 @@ public class RecommendFragment extends BaseFragement implements IRecommendCallba
 
     @Override
     public void onRecommendListLoaded(List<Album> result) {
-        recommendAdapter.updateData(result);
         uiLoader.updateUIStatus(UILoader.UIStatus.SUCCESS);
-
+        recommendAdapter.updateData(result);
     }
 
     @Override

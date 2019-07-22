@@ -4,7 +4,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentPagerAdapter;
 
-import com.jupiter.miniximalaya.utils.FragementFactory;
+import com.jupiter.miniximalaya.utils.FragmentFactory;
 
 public class MainContentAdapter extends FragmentPagerAdapter {
     public MainContentAdapter(FragmentManager fm) {
@@ -13,11 +13,11 @@ public class MainContentAdapter extends FragmentPagerAdapter {
 
     @Override
     public Fragment getItem(int position) {
-        return FragementFactory.getFragement(position);
+        return FragmentFactory.getFragment(position);
     }
 
     @Override
     public int getCount() {
-        return FragementFactory.PAGE_COUNT;
+        return FragmentFactory.PAGE_COUNT;
     }
 }
