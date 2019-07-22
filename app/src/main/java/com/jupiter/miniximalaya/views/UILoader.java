@@ -38,7 +38,7 @@ public abstract class UILoader extends FrameLayout {
     private View emptyView;
     private View successView;
 
-    public void updateUIStatus(UIStatus uiStatus){
+    public void updateUIStatus(final UIStatus uiStatus){
         this.uiStatus = uiStatus;
         //更新UI必须在UI线程中执行
         BaseApplication.getHandler().post(new Runnable() {
@@ -75,16 +75,17 @@ public abstract class UILoader extends FrameLayout {
             addView(successView);
         }
         successView.setVisibility(uiStatus == UIStatus.SUCCESS?View.VISIBLE: View.GONE);
+
     }
 
     protected abstract View getSuccessView();
 
     private View getEmptyView() {
-        return LayoutInflater.from(getContext()).inflate(R.layout.fragement_empty_view, this, false);
+        return LayoutInflater.from(getContext()).inflate(R.layout.fragment_empty_view, this, false);
     }
 
     private View getErrorView() {
-        View errorView = LayoutInflater.from(getContext()).inflate(R.layout.fragement_error_view, this, false);
+        View errorView = LayoutInflater.from(getContext()).inflate(R.layout.fragment_error_view, this, false);
         errorView.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -97,7 +98,7 @@ public abstract class UILoader extends FrameLayout {
     }
 
     private View getLoadingView() {
-        return LayoutInflater.from(getContext()).inflate(R.layout.fragement_loading_view, this, false);
+        return LayoutInflater.from(getContext()).inflate(R.layout.fragment_loading_view, this, false);
     }
 
     public interface  OnRetryClickListener{

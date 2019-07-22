@@ -62,7 +62,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
 
     private View createSuccessView() {
 
-        successView = onLoadLayout(R.layout.fragement_recommend);
+        successView = onLoadLayout(R.layout.fragment_recommend);
         recommendRecyclerView = successView.findViewById(R.id.rv_recommend);
 
         //设置适配器

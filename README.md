@@ -28,3 +28,5 @@
 ##[011: 推荐页面异常处理](./doc/011-RecommendExceptionHandle.md)
 
 ##[012: 推荐错误页面优化](./doc/012-RecommendErrorUITunning.md)
+
+##[013: 推荐加载页面优化](./doc/013-RecommendLoadingUITunning.md)

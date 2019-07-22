@@ -8,5 +8,5 @@ import com.jupiter.miniximalaya.base.BaseFragment;
 public class SubscriptionFragment extends BaseFragment {
     @Override
     protected View onCreateSubView() {
-        return  onLoadLayout(R.layout.fragement_subscription);    }
+        return  onLoadLayout(R.layout.fragment_subscription);    }
 }
