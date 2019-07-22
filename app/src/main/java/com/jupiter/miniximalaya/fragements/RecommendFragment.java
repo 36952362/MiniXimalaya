@@ -19,7 +19,7 @@ import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import java.util.List;
 
-public class RecommendFragment extends BaseFragment implements IRecommendCallback {
+public class RecommendFragment extends BaseFragment implements IRecommendCallback, UILoader.OnRetryClickListener {
 
     private static final  String TAG = "RecommendFragment";
     private View successView;
@@ -46,6 +46,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
             ((ViewGroup) uiLoader.getParent()).removeView(uiLoader);
         }
 
+        uiLoader.setRetryClickListener(this);
         return uiLoader;
     }
 
@@ -115,5 +116,12 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
             recommendPresenter.unregisterCallback(this);
         }
 
+    }
+
+    @Override
+    public void onRetry() {
+        if(null != recommendPresenter){
+            recommendPresenter.getRecommendList();
+        }
     }
 }

@@ -14,6 +14,8 @@ import lombok.Data;
 @Data
 public abstract class UILoader extends FrameLayout {
 
+    private OnRetryClickListener retryClickListener = null;
+
     public UILoader(Context context) {
         super(context, null);
     }
@@ -82,10 +84,23 @@ public abstract class UILoader extends FrameLayout {
     }
 
     private View getErrorView() {
-        return LayoutInflater.from(getContext()).inflate(R.layout.fragement_error_view, this, false);
+        View errorView = LayoutInflater.from(getContext()).inflate(R.layout.fragement_error_view, this, false);
+        errorView.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(null != retryClickListener){
+                    retryClickListener.onRetry();
+                }
+            }
+        });
+        return errorView;
     }
 
     private View getLoadingView() {
         return LayoutInflater.from(getContext()).inflate(R.layout.fragement_loading_view, this, false);
     }
+
+    public interface  OnRetryClickListener{
+        void onRetry();
+    };
 }

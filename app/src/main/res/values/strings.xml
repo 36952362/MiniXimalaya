@@ -7,6 +7,7 @@
     <string name="albumDesc">描述</string>
     <string name="album_play">播放量</string>
     <string name="album_track">收看量</string>
+    <string name="recommend_error">网络错误，请点击重试</string>
     <string-array name="indicate_title">
         <item>推荐</item>
         <item>订阅</item>

@@ -4,13 +4,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+    <ImageView
+        android:id="@+id/iv_recommend_error"
+        android:layout_width="75dp"
+        android:layout_height="75dp"
+        android:src="@mipmap/network_error"
+        app:layout_constraintBottom_toTopOf="@id/tx_recommend_error"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_chainStyle="packed"
+        android:contentDescription="@string/recommend_error" />
+
     <TextView
-        android:id="@+id/textView"
+        android:id="@+id/tx_recommend_error"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="加载出错"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="10dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/iv_recommend_error"
+        android:text="@string/recommend_error" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>
