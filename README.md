@@ -32,3 +32,13 @@
 ##[013: 推荐加载页面优化](./doc/013-RecommendLoadingUITunning.md)
 
 ##[014: 推荐空页面优化](./doc/014-RecommendEmptyUITunning.md)
+
+##[015: 推荐页面跳转到具体内容](./doc/015-RecommendJumpToDetail.md)
+
+##[016: 专辑页面基础实现](./doc/016-AlbumDetailBasicImpliment.md)
+
+##[017: 专辑封面高斯模糊实现](./doc/017-AlbumDetailCoverGaussianBlur.md)
+
+##[018: 添加订阅按钮](./doc/018-AlbumDetailSubscriptionButton.md)
+
+##[019: 播放栏布局](./doc/019-AlbumDetailPlayBarLayout.md)

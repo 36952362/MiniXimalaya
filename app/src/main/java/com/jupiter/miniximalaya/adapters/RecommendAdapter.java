@@ -18,7 +18,9 @@ import java.util.List;
 
 public class RecommendAdapter  extends RecyclerView.Adapter<RecommendAdapter.InnerHolder> {
 
-    List<Album> albumList = new ArrayList<>();
+    private List<Album> albumList = new ArrayList<>();
+    private OnRecommendItemClickListener onRecommendItemClickListener = null;
+
     @NonNull
     @Override
     public InnerHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
@@ -27,7 +29,18 @@ public class RecommendAdapter  extends RecyclerView.Adapter<RecommendAdapter.Inn
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InnerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull final InnerHolder holder, int position) {
+            holder.itemView.setTag(position);
+            holder.itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if(null != onRecommendItemClickListener){
+                        int clickPosition = (int)view.getTag();
+                        Album album = albumList.get(clickPosition);
+                        onRecommendItemClickListener.onItemClick(clickPosition, album);
+                    }
+                }
+            });
             holder.update(albumList.get(position));
     }
 
@@ -62,5 +75,13 @@ public class RecommendAdapter  extends RecyclerView.Adapter<RecommendAdapter.Inn
             albumPlayCount.setText(album.getPlayCount() + "");
             albumTrackCount.setText(album.getIncludeTrackCount() + "");
         }
+    }
+
+    public void setOnRecommendItemClickListener(OnRecommendItemClickListener listener){
+        this.onRecommendItemClickListener = listener;
+    }
+
+    public interface OnRecommendItemClickListener {
+        void onItemClick(int position, Album album);
     }
 }

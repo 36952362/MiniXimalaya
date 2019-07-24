@@ -1,4 +1,4 @@
-package com.jupiter.miniximalaya;
+package com.jupiter.miniximalaya.presenters;
 
 import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
 import com.jupiter.miniximalaya.interfaces.IRecommendPresenter;

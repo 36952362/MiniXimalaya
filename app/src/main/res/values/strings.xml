@@ -10,6 +10,9 @@
     <string name="recommend_error">网络错误，请点击重试</string>
     <string name="recommend_loading">正在玩命加载中...</string>
     <string name="recommend_empty">呜呜~ 没有内容哦！</string>
+    <string name="album_subscribe">+ 订阅</string>
+    <string name="album_player_continue">继续播放</string>
+    <string name="album_item_select">选集</string>
     <string-array name="indicate_title">
         <item>推荐</item>
         <item>订阅</item>

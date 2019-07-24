@@ -1,5 +1,6 @@
 package com.jupiter.miniximalaya.fragements;
 
+import android.content.Intent;
 import android.graphics.Rect;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +10,9 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jupiter.miniximalaya.R;
-import com.jupiter.miniximalaya.RecommendPresenter;
+import com.jupiter.miniximalaya.AlbumDetailActivity;
+import com.jupiter.miniximalaya.presenters.AlbumDetailPresenter;
+import com.jupiter.miniximalaya.presenters.RecommendPresenter;
 import com.jupiter.miniximalaya.adapters.RecommendAdapter;
 import com.jupiter.miniximalaya.base.BaseFragment;
 import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
@@ -19,7 +22,7 @@ import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import java.util.List;
 
-public class RecommendFragment extends BaseFragment implements IRecommendCallback, UILoader.OnRetryClickListener {
+public class RecommendFragment extends BaseFragment implements IRecommendCallback, UILoader.OnRetryClickListener, RecommendAdapter.OnRecommendItemClickListener {
 
     private static final  String TAG = "RecommendFragment";
     private View successView;
@@ -68,6 +71,8 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         //设置适配器
         recommendAdapter = new RecommendAdapter();
         recommendRecyclerView.setAdapter(recommendAdapter);
+
+        recommendAdapter.setOnRecommendItemClickListener(this);
 
         //设置布局管理器
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(getContext());
@@ -123,5 +128,12 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         if(null != recommendPresenter){
             recommendPresenter.getRecommendList();
         }
+    }
+
+    @Override
+    public void onItemClick(int position, Album album) {
+        Intent intent = new Intent(getContext(), AlbumDetailActivity.class);
+        AlbumDetailPresenter.getsInstance().setAlbum(album);
+        startActivity(intent);
     }
 }
