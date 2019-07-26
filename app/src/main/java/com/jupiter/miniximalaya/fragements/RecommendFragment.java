@@ -32,12 +32,12 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
     private UILoader uiLoader;
 
     @Override
-    protected View onCreateSubView() {
+    protected View onCreateSubView(ViewGroup container) {
 
         uiLoader = new UILoader(getContext()) {
             @Override
-            protected View getSuccessView() {
-                View successView = createSuccessView();
+            protected View getSuccessView(ViewGroup container) {
+                View successView = createSuccessView(container);
                 return successView;
             }
         };
@@ -63,9 +63,9 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         recommendPresenter.getRecommendList();
     }
 
-    private View createSuccessView() {
+    private View createSuccessView(ViewGroup container) {
 
-        successView = onLoadLayout(R.layout.fragment_recommend);
+        successView = onLoadLayout(R.layout.fragment_recommend, container);
         recommendRecyclerView = successView.findViewById(R.id.rv_recommend);
 
         //设置适配器

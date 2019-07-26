@@ -4,6 +4,7 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
 import com.jupiter.miniximalaya.R;
@@ -16,27 +17,32 @@ public abstract class UILoader extends FrameLayout {
 
     private OnRetryClickListener retryClickListener = null;
 
-    public UILoader(Context context) {
-        super(context, null);
-    }
-
-    public UILoader(Context context, AttributeSet attrs) {
-        super(context, attrs, 0);
-    }
-
-    public UILoader(Context context, AttributeSet attrs, int defStyleAttr) {
-        super(context, attrs, defStyleAttr, 0);
-    }
-
     public enum UIStatus{
         NONE, LOADING, ERROR, EMPTY, SUCCESS
     }
 
     private UIStatus uiStatus = UIStatus.NONE;
-    private View loadingView;
-    private View errorView;
-    private View emptyView;
-    private View successView;
+    private View loadingView = null;
+    private View errorView = null ;
+    private View emptyView = null ;
+    private View successView = null ;
+
+    public UILoader(Context context) {
+        this(context, null);
+    }
+
+    public UILoader(Context context, AttributeSet attrs) {
+        this(context, attrs, 0);
+    }
+
+    public UILoader(Context context, AttributeSet attrs, int defStyleAttr) {
+        super(context, attrs, defStyleAttr, 0);
+        init();
+    }
+
+    private void init() {
+        switchUIByCurrentStatus();
+    }
 
     public void updateUIStatus(final UIStatus uiStatus){
         this.uiStatus = uiStatus;
@@ -71,14 +77,14 @@ public abstract class UILoader extends FrameLayout {
         emptyView.setVisibility(uiStatus == UIStatus.EMPTY?View.VISIBLE: View.GONE);
 
         if(successView == null){
-            successView = getSuccessView();
+            successView = getSuccessView(this);
             addView(successView);
         }
         successView.setVisibility(uiStatus == UIStatus.SUCCESS?View.VISIBLE: View.GONE);
 
     }
 
-    protected abstract View getSuccessView();
+    protected abstract View getSuccessView(ViewGroup container);
 
     private View getEmptyView() {
         return LayoutInflater.from(getContext()).inflate(R.layout.fragment_empty_view, this, false);

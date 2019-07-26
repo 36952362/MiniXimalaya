@@ -2,6 +2,7 @@ package com.jupiter.miniximalaya.presenters;
 
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailCallback;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailPresenter;
+import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
 import com.jupiter.miniximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
@@ -47,8 +48,15 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
 
     }
 
+    private void updateLoading(){
+        for (IAlbumDetailCallback albumDetailCallback : albumDetailCallbackList) {
+            albumDetailCallback.onLoading();
+        }
+    }
+
     @Override
     public void getAlbumDetail(int albumId, int pageIndex) {
+        updateLoading();
 
         Map<String, String> map = new HashMap<String, String>();
         map.put(DTransferConstants.ALBUM_ID, albumId + "");
@@ -65,9 +73,16 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
             @Override
             public void onError(int i, String s) {
                 LogUtil.e(TAG, "errorCode:" + i  + ", errorMsg:" + s);
+                handleAlbumDetailError(i, s);
             }
         });
 
+    }
+
+    private void handleAlbumDetailError(int i, String s) {
+        for (IAlbumDetailCallback albumDetailCallback : albumDetailCallbackList) {
+            albumDetailCallback.onError(i, s);
+        }
     }
 
     @Override
@@ -90,9 +105,14 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
     }
 
     private void handleAlbumDetailData(List<Track> tracks){
-        for(IAlbumDetailCallback albumDetailCallback : albumDetailCallbackList){
-            albumDetailCallback.onAlbumDetailLoaded(tracks);
+        if(null == tracks || tracks.size() == 0){
+            for(IAlbumDetailCallback albumDetailCallback : albumDetailCallbackList){
+                albumDetailCallback.onEmpty();
+            }
+        }else{
+            for(IAlbumDetailCallback albumDetailCallback : albumDetailCallbackList){
+                albumDetailCallback.onAlbumDetailLoaded(tracks);
+            }
         }
     }
 }
-

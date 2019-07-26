@@ -4,7 +4,10 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,12 +17,14 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.jupiter.miniximalaya.adapters.AlbumDetailAdapter;
+import com.jupiter.miniximalaya.base.BaseActivity;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailCallback;
 import com.jupiter.miniximalaya.presenters.AlbumDetailPresenter;
 import com.jupiter.miniximalaya.utils.DPPXConverter;
 import com.jupiter.miniximalaya.utils.GaussianBlur;
 import com.jupiter.miniximalaya.utils.LogUtil;
 import com.jupiter.miniximalaya.views.RoundRectImageView;
+import com.jupiter.miniximalaya.views.UILoader;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
@@ -27,7 +32,7 @@ import com.ximalaya.ting.android.opensdk.model.track.Track;
 
 import java.util.List;
 
-public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDetailCallback {
+public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCallback, UILoader.OnRetryClickListener {
 
     private ImageView albumLargeCover;
     private RoundRectImageView albumSmallCover;
@@ -39,6 +44,10 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
     private int albumPageIndex = 1;
     private RecyclerView albumDetailInfo;
     private AlbumDetailAdapter albumDetailAdapter;
+    private UILoader uiLoader = null;
+    private FrameLayout albumDetailContainer;
+
+    private long albumId = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,12 +55,39 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         setContentView(R.layout.activity_album_detail);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        
+
         initView();
 
         albumDetailPresenter = AlbumDetailPresenter.getsInstance();
         albumDetailPresenter.registerCallback(this);
+    }
 
+    private void initView() {
+        albumLargeCover = findViewById(R.id.iv_album_large_cover);
+        albumSmallCover = findViewById(R.id.iv_album_small_cover);
+        albumTitle = findViewById(R.id.tv_album_item_title);
+        albumAuthor = findViewById(R.id.tv_album_item_author);
+
+        albumDetailContainer = findViewById(R.id.fl_album_detail_info);
+
+        if(null == uiLoader) {
+            uiLoader = new UILoader(this) {
+                @Override
+                protected View getSuccessView(ViewGroup container) {
+                    return createSuccessView(container);
+                }
+            };
+        }
+        uiLoader.setRetryClickListener(this);
+        albumDetailContainer.removeAllViews();
+        albumDetailContainer.addView(uiLoader);
+    }
+
+    private View createSuccessView(ViewGroup container) {
+
+        View successView = LayoutInflater.from(this).inflate(R.layout.item_album_detail_list, container, false);
+
+        albumDetailInfo = successView.findViewById(R.id.rv_album_detail_info);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         albumDetailInfo.setLayoutManager(linearLayoutManager);
 
@@ -67,14 +103,7 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
             }
         });
 
-    }
-
-    private void initView() {
-        albumLargeCover = findViewById(R.id.iv_album_large_cover);
-        albumSmallCover = findViewById(R.id.iv_album_small_cover);
-        albumTitle = findViewById(R.id.tv_album_item_title);
-        albumAuthor = findViewById(R.id.tv_album_item_author);
-        albumDetailInfo = findViewById(R.id.rv_album_detail_info);
+        return successView;
     }
 
 
@@ -89,9 +118,8 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         if(null == tracks){
             return;
         }
-
+        uiLoader.updateUIStatus(UILoader.UIStatus.SUCCESS);
         albumDetailAdapter.setAlbumDetailData(tracks);
-
     }
 
     @Override
@@ -121,7 +149,29 @@ public class AlbumDetailActivity extends AppCompatActivity implements IAlbumDeta
         albumTitle.setText(album.getAlbumTitle());
         albumAuthor.setText(album.getAnnouncer().getNickname());
 
+        albumId = album.getId();
         //获取专辑列表数据
-        albumDetailPresenter.getAlbumDetail((int)album.getId(), albumPageIndex);
+        albumDetailPresenter.getAlbumDetail((int)albumId, albumPageIndex);
+    }
+
+    @Override
+    public void onLoading() {
+        uiLoader.updateUIStatus(UILoader.UIStatus.LOADING);
+    }
+
+    @Override
+    public void onError(int errorCode, String desc) {
+        uiLoader.updateUIStatus(UILoader.UIStatus.ERROR);
+    }
+
+    @Override
+    public void onEmpty() {
+        uiLoader.updateUIStatus(UILoader.UIStatus.EMPTY);
+    }
+
+    @Override
+    public void onRetry() {
+        //获取专辑列表数据
+        albumDetailPresenter.getAlbumDetail((int)albumId, albumPageIndex);
     }
 }

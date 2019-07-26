@@ -44,3 +44,5 @@
 ##[019: 播放栏布局](./doc/019-AlbumDetailPlayBarLayout.md)
 
 ##[020: 播放列表布局和数据绑定](./doc/020-AlbumDetailPlayListLayout.md)
+
+##[021: 获取播放列表异常情况处理](./doc/021-AlbumDetailExceptionHandle.md)

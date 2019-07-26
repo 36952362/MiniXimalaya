@@ -13,20 +13,18 @@ public abstract class BaseFragment extends Fragment {
 
     private View view;
     private LayoutInflater inflater;
-    private ViewGroup container;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         this.inflater = inflater;
-        this.container = container;
-        view = onCreateSubView();
+        view = onCreateSubView(container);
         return view;
     }
 
-    protected abstract View onCreateSubView();
+    protected abstract View onCreateSubView(ViewGroup container);
 
-    protected View onLoadLayout(int id){
+    protected View onLoadLayout(int id, ViewGroup container){
         return  inflater.inflate(id, container, false);
     }
 }
