@@ -1,5 +1,6 @@
 package com.jupiter.miniximalaya;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
@@ -32,7 +33,7 @@ import com.ximalaya.ting.android.opensdk.model.track.Track;
 
 import java.util.List;
 
-public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCallback, UILoader.OnRetryClickListener {
+public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCallback, UILoader.OnRetryClickListener, AlbumDetailAdapter.OnItemClickListener {
 
     private ImageView albumLargeCover;
     private RoundRectImageView albumSmallCover;
@@ -92,6 +93,7 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         albumDetailInfo.setLayoutManager(linearLayoutManager);
 
         albumDetailAdapter = new AlbumDetailAdapter();
+        albumDetailAdapter.setOnItemClickListener(this);
         albumDetailInfo.setAdapter(albumDetailAdapter);
         albumDetailInfo.addItemDecoration(new RecyclerView.ItemDecoration() {
             @Override
@@ -173,5 +175,11 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
     public void onRetry() {
         //获取专辑列表数据
         albumDetailPresenter.getAlbumDetail((int)albumId, albumPageIndex);
+    }
+
+    @Override
+    public void onItemClick() {
+        Intent intent = new Intent(this, TrackPlayerActivity.class);
+        startActivity(intent);
     }
 }

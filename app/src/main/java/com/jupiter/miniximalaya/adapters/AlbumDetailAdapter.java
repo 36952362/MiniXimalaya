@@ -19,6 +19,7 @@ import java.util.List;
 
 public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.InnerHolder> {
     private List<Track> tracks = new ArrayList<>();
+    private OnItemClickListener onItemClickListener = null;
 
     private SimpleDateFormat updateDateFormat = new SimpleDateFormat("YYYY-MM-dd");
     private SimpleDateFormat playDurationFormat = new SimpleDateFormat("mm:ss");
@@ -49,6 +50,14 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
     public class InnerHolder extends RecyclerView.ViewHolder {
         public InnerHolder(@NonNull View itemView) {
             super(itemView);
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (onItemClickListener != null) {
+                        onItemClickListener.onItemClick();
+                    }
+                }
+            });
         }
 
         public void setData(Track track, int position) {
@@ -66,5 +75,14 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
             String playDuration = playDurationFormat.format(track.getDuration() * 1000);
             itemPlayDuration.setText(playDuration);
         }
+    }
+
+    public void setOnItemClickListener(OnItemClickListener listener){
+        this.onItemClickListener = listener;
+    }
+
+    public interface OnItemClickListener{
+
+        void onItemClick();
     }
 }
