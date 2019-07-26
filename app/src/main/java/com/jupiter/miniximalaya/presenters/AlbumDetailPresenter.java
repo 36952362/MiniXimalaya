@@ -2,15 +2,25 @@ package com.jupiter.miniximalaya.presenters;
 
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailCallback;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailPresenter;
+import com.jupiter.miniximalaya.utils.LogUtil;
+import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
+import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
+import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
+import com.ximalaya.ting.android.opensdk.model.track.Track;
+import com.ximalaya.ting.android.opensdk.model.track.TrackList;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 public class AlbumDetailPresenter implements IAlbumDetailPresenter {
 
     private List<IAlbumDetailCallback> albumDetailCallbackList = new ArrayList<>();
     private Album album = null;
+
+    private final String TAG = "AlbumDetailPresenter";
 
     private  AlbumDetailPresenter(){}
 
@@ -38,7 +48,25 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
     }
 
     @Override
-    public void getAlbumDetail(int albumId, int pager) {
+    public void getAlbumDetail(int albumId, int pageIndex) {
+
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(DTransferConstants.ALBUM_ID, albumId + "");
+        map.put(DTransferConstants.SORT, "asc");
+        map.put(DTransferConstants.PAGE, pageIndex + "");
+        CommonRequest.getTracks(map, new IDataCallBack<TrackList>() {
+            @Override
+            public void onSuccess(TrackList trackList) {
+                if(null != trackList) {
+                    handleAlbumDetailData(trackList.getTracks());
+                }
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                LogUtil.e(TAG, "errorCode:" + i  + ", errorMsg:" + s);
+            }
+        });
 
     }
 
@@ -60,4 +88,11 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
     public void setAlbum(Album album) {
         this.album = album;
     }
+
+    private void handleAlbumDetailData(List<Track> tracks){
+        for(IAlbumDetailCallback albumDetailCallback : albumDetailCallbackList){
+            albumDetailCallback.onAlbumDetailLoaded(tracks);
+        }
+    }
 }
+

@@ -42,7 +42,7 @@ public class RecommendPresenter implements IRecommendPresenter {
         updateLoading();
 
         Map<String, String> map = new HashMap<String, String>();
-        map.put(DTransferConstants.LIKE_COUNT, Constants.RECOMMEND_COUNT + "");
+        map.put(DTransferConstants.LIKE_COUNT, Constants.COUNT_RECOMMEND + "");
         CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
             @Override
             public void onSuccess(GussLikeAlbumList gussLikeAlbumList) {

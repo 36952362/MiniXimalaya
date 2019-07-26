@@ -42,3 +42,5 @@
 ##[018: 添加订阅按钮](./doc/018-AlbumDetailSubscriptionButton.md)
 
 ##[019: 播放栏布局](./doc/019-AlbumDetailPlayBarLayout.md)
+
+##[020: 播放列表布局和数据绑定](./doc/020-AlbumDetailPlayListLayout.md)

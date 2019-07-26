@@ -118,5 +118,16 @@
         app:layout_constraintEnd_toStartOf="@id/album_item_select"
         app:layout_constraintTop_toTopOf="@id/tv_album_item_play_container" />
 
+    <androidx.recyclerview.widget.RecyclerView
+        android:overScrollMode="never"
+        android:id="@+id/rv_album_detail_info"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="220dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/tv_album_item_play_container" />
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
