@@ -50,3 +50,7 @@
 ##[022:播放器页面布局](./doc/022-TrackPlayerLayout.md)
 
 ##[023:喜马拉雅播放器集成](./doc/023-XmPlayerSDKIntegration.md)
+
+##[024:播放器播放和暂停功能实现](./doc/024-TrackPlayAndPauseImpliment.md)
+
+##[025:播放器播放时间和总时间显示](./doc/025-TrackPlayTotalDurationAndSeekBar.md)

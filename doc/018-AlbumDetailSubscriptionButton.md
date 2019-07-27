@@ -1,4 +1,6 @@
-#添加订阅按钮
+#018: 添加订阅按钮
+
+#[首页](./../README.md)
 
 ##1. 创建一个drawable文件作为订阅按钮的背景
 **shape_album_subscribe_bg.xml:**

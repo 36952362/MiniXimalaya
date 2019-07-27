@@ -1,28 +1,31 @@
-# 集成喜马拉雅SDK并验证
-### 1. 在喜马拉雅官网下载开发SDK
+#002: 集成喜马拉雅SDK并验证
+
+#[首页](./../README.md)
+
+##1. 在喜马拉雅官网下载开发SDK
 	地址: http://open.ximalaya.com/docNoHelp/sdk?type=common
 
-### 2. 配置应用工程的AndroidManifest.xml
+##2. 配置应用工程的AndroidManifest.xml
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
 	<uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
-### 3. build.gradle中添加SDK依赖的第三方jar包
+##3. build.gradle中添加SDK依赖的第三方jar包
 	dependencies {
 	    implementation 'com.squareup.okio:okio:2.2.2'
 	    implementation 'com.squareup.okhttp3:okhttp:4.0.1'
 	    implementation 'com.google.code.gson:gson:2.8.5'
 	}
-### 4. build.gradle中添加喜马拉雅jar包
+##4. build.gradle中添加喜马拉雅jar包
 	dependencies {
 	    implementation fileTree(dir: 'libs', include: ['*.jar'])
 	 }
  
-### 5. 拷贝SDK动态库到应用工程/app/libs
+##5. 拷贝SDK动态库到应用工程/app/libs
 ![依赖库](./pics/SDKDependencis.png)
 
-### 6. build.grader中添加jniLibs目录
+##6. build.grader中添加jniLibs目录
 	android{
 		sourceSets {
 	        main {
@@ -30,7 +33,7 @@
 	        }
 	    }
 	}
-### 7. 配置app_key, app_secret和pack_id
+##7. 配置app_key, app_secret和pack_id
 * 创建一个BaseApplication类并继承自Application
 * 重载onCreate()方法，配置app_key, app_secret和pack_id并初始化
   

@@ -1,6 +1,8 @@
-#推荐界面优化
+#010: 推荐界面优化
 
-##1.消除上下拉时显示的阴影
+#[首页](./../README.md)
+
+##1. 消除上下拉时显示的阴影
 在推荐界面布局文件中的RecyclerView中添加一个属性android:overScrollMode="never"
 
 **fragement_recommend.xml:**

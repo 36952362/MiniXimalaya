@@ -1,4 +1,6 @@
-#播放栏布局
+#019: 播放栏布局
+
+#[首页](./../README.md)
 
 ##1. 设计播放栏布局
 **activity_album_detail.xml:**

@@ -1,4 +1,6 @@
-#导航栏布局调整
+#007: 导航栏布局调整
+
+#[首页](./../README.md)
 
 ##1. 设置导航栏布局为平均分配模式
 	commonNavigator.setAdjustMode(true);

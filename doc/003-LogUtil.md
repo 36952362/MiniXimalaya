@@ -1,6 +1,9 @@
-# 编写属于自己的Log输出控制
-### 1. 在应用工程中创建utils目录并在此目录中添加一个LogUtil.java文件
-### 2. 实现LogUtil.java
+#003: 编写属于自己的Log输出控制
+
+#[首页](./../README.md)
+
+##1. 在应用工程中创建utils目录并在此目录中添加一个LogUtil.java文件
+##2. 实现LogUtil.java
 	public class LogUtil {
 	    public static String sTAG = "LogUtil";
 	
@@ -33,7 +36,7 @@
 	        }
 	    }
 
-### 3. 使用方式
+##3. 使用方式
 在BaseApplication初始化的时候初始化
 
 	LogUtil.init(this.getPackageName(), false);

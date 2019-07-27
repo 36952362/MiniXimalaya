@@ -1,10 +1,90 @@
-#023: 喜马拉雅播放器集成
+#024: 播放器播放和暂停功能实现
 
 #[首页](./../README.md)
 
-##1. 依赖包导入
-将SDK包中的两个so包(libxmediaplayer.so, libxmediaplayer_x.so)拷贝到您的项目libs/armeabi目录下
+##1. 播放
+###1.1 在从上一个专辑页面切换到播放器页面时自动播放
+**TrackPlayerActivity.java:**
 
+	protected void onCreate(Bundle savedInstanceState) {
+		startPlay();
+	}
+	
+	private void startPlay() {
+        if (playerPresenter != null) {
+            playerPresenter.play();
+        }
+    }
+ **PlayerPresenter.java:**
+ 
+ 	public void play() {
+        if(isPlayListSet){
+            xmPlayerManager.play();
+        }
+    }
+###1.2 播放图标设置点击事件
+点击播放按钮时，如果目前没有播放就开始播放，当收到SDK的onPlayStart回调方法时，切换播放按钮成暂停按钮，如果目前当前正在播放，就停止播放，当收到SDK的onPlayPause回调方法时，切换暂停按钮成播放按钮
+
+**TrackPlayerActivity.java:**
+
+	private void initEvent() {
+        if (playImageView != null) {
+            playImageView.setOnClickListener(this);
+        }
+    }
+    
+    public void onClick(View view) {
+        if(view == playImageView){
+            if(playerPresenter.isPlaying()) {
+                pause();
+                return;
+            }else{
+                startPlay();
+            }
+        }
+    }
+    
+    @Override
+    public void onPlayStart() {
+        if (playImageView!=null) {
+            playImageView.setImageResource(R.mipmap.stop);
+        }
+    }
+
+    @Override
+    public void onPlayPause() {
+        if (playImageView!=null) {
+            playImageView.setImageResource(R.mipmap.play);
+        }
+    }
+    
+ **PlayerPresenter.java:**
+ 
+ 	public void play() {
+        if(isPlayListSet){
+            xmPlayerManager.play();
+        }
+    }
+    
+ 	@Override
+    public void pause() {
+        xmPlayerManager.pause();
+    }
+    
+    @Override
+    public void onPlayStart() {
+        for (IPlayerCallback playerCallback : playerCallbacks) {
+            playerCallback.onPlayStart();
+        }
+    }
+
+    @Override
+    public void onPlayPause() {
+        for (IPlayerCallback playerCallback : playerCallbacks) {
+            playerCallback.onPlayPause();
+        }
+    }
+    
 ##2. SDK导入
 TingPhoneOpenSDK_XXX.jar拷贝到libs目录下
 
