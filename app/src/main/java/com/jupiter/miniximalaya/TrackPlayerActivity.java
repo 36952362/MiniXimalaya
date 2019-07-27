@@ -28,6 +28,8 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     private TextView escapedTimeTextView;
     private TextView totalTimeTextView;
     private SeekBar progressBar;
+    private int currentProgress = 0;
+    private boolean userTouched = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,6 +69,28 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     private void initEvent() {
         if (playImageView != null) {
             playImageView.setOnClickListener(this);
+        }
+
+        if (progressBar != null) {
+            progressBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
+                @Override
+                public void onProgressChanged(SeekBar seekBar, int curProgress,  boolean isFromUser) {
+                    if (isFromUser) {
+                        currentProgress = curProgress;
+                    }
+                }
+
+                @Override
+                public void onStartTrackingTouch(SeekBar seekBar) {
+                    userTouched = true;
+                }
+
+                @Override
+                public void onStopTrackingTouch(SeekBar seekBar) {
+                    userTouched = false;
+                    playerPresenter.seekTo(currentProgress);
+                }
+            });
         }
     }
 
@@ -136,17 +160,17 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onPlayProgressChanged(long currentProgress, long total) {
+    public void onPlayProgressChanged(int currProgress, int total) {
         String totalDuration;
         String escapedTime;
-
+        progressBar.setMax(total);
         if (total >= 60 * 60 * 100) {
             totalDuration = hourFormat.format(total);
-            escapedTime = hourFormat.format(currentProgress);
+            escapedTime = hourFormat.format(currProgress);
         }
         else{
             totalDuration = minFormat.format(total);
-            escapedTime = minFormat.format(currentProgress);
+            escapedTime = minFormat.format(currProgress);
         }
 
         if (totalTimeTextView != null) {
@@ -154,9 +178,15 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         }
 
         if (escapedTimeTextView != null) {
-
             escapedTimeTextView.setText(escapedTime);
         }
+
+        if (!userTouched) {
+            if (progressBar != null) {
+                progressBar.setProgress(currProgress);
+            }
+        }
+
     }
 
     @Override

@@ -1,7 +1,5 @@
 package com.jupiter.miniximalaya.interfaces;
 
-import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
-import com.ximalaya.ting.android.opensdk.model.advertis.AdvertisList;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
@@ -18,7 +16,7 @@ public interface IPlayerCallback {
     void onPlayNext();
     void onPlayList(List<Track> tracks);
     void onPlayModeChanged(XmPlayListControl.PlayMode playMode);
-    void onPlayProgressChanged(long currentProgress, long total);
+    void onPlayProgressChanged(int currentProgress, int total);
 
     //Ad.
     void onAdsStartBuffering();

@@ -109,7 +109,9 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     @Override
     public void seekTo(int progress) {
-
+        if (xmPlayerManager != null) {
+            xmPlayerManager.seekTo(progress);
+        }
     }
 
     @Override
