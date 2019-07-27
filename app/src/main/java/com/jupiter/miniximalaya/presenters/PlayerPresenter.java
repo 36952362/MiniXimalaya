@@ -68,6 +68,12 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
         }
     }
 
+    public void play(int position) {
+        if (xmPlayerManager != null) {
+            xmPlayerManager.play(position);
+        }
+    }
+
     @Override
     public void play() {
         if(isPlayListSet){
@@ -178,8 +184,11 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     @Override
     public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel) {
+
+        int currentIndex = xmPlayerManager.getCurrentIndex();
+
         for (IPlayerCallback playerCallback : playerCallbacks) {
-            playerCallback.onSoundSwitch(lastModel, curModel);
+            playerCallback.onSoundSwitch(lastModel, curModel, currentIndex);
         }
     }
 
@@ -251,6 +260,4 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     }
     //Ads callback end
-
-
 }

@@ -6,6 +6,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
@@ -33,7 +34,8 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     private TextView totalTimeTextView;
     private SeekBar progressBar;
     private int currentProgress = 0;
-    private boolean userTouched = false;
+    private boolean userTouchedSeekBar = false;
+    private boolean userTouchedViewPager = false;
     private ImageView playPrevious;
     private ImageView playNext;
     private TextView tvPlayTitle;
@@ -94,12 +96,12 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
 
                 @Override
                 public void onStartTrackingTouch(SeekBar seekBar) {
-                    userTouched = true;
+                    userTouchedSeekBar = true;
                 }
 
                 @Override
                 public void onStopTrackingTouch(SeekBar seekBar) {
-                    userTouched = false;
+                    userTouchedSeekBar = false;
                     playerPresenter.seekTo(currentProgress);
                 }
             });
@@ -126,6 +128,39 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
                 }
             });
         }
+
+        if (playCoverViewPager != null) {
+            playCoverViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+                @Override
+                public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+                }
+
+                @Override
+                public void onPageSelected(int position) {
+                    if (playerPresenter != null) {
+                        playerPresenter.play(position);
+                    }
+                }
+
+                @Override
+                public void onPageScrollStateChanged(int state) {
+
+                }
+            });
+
+            playCoverViewPager.setOnTouchListener(new View.OnTouchListener() {
+                @Override
+                public boolean onTouch(View view, MotionEvent motionEvent) {
+                    int action = motionEvent.getAction();
+                    if(MotionEvent.ACTION_DOWN == action)
+                        userTouchedViewPager = true;
+                    return false;
+                }
+            });
+
+        }
+
     }
 
     private void initView() {
@@ -227,7 +262,7 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
             escapedTimeTextView.setText(escapedTime);
         }
 
-        if (!userTouched) {
+        if (!userTouchedSeekBar) {
             if (progressBar != null) {
                 progressBar.setProgress(currProgress);
             }
@@ -241,13 +276,20 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel) {
+    public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel, int currentIndex) {
         if (curModel != null && curModel instanceof Track) {
             Track track = (Track)curModel;
             if (tvPlayTitle != null) {
                 tvPlayTitle.setText(track.getTrackTitle());
             }
         }
+
+        if (playCoverViewPager != null && userTouchedViewPager) {
+            playCoverViewPager.setCurrentItem(currentIndex, true);
+        }
+
+        userTouchedViewPager = false;
+
     }
 
     @Override

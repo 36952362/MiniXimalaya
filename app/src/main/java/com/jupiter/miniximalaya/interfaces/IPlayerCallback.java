@@ -19,10 +19,11 @@ public interface IPlayerCallback {
     void onPlayModeChanged(XmPlayListControl.PlayMode playMode);
     void onPlayProgressChanged(int currentProgress, int total);
     void onPlayTitle(String trackTitle);
-    void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel);
+    void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel, int currentIndex);
 
     //Ad.
     void onAdsStartBuffering();
     void onAdsStopBuffering();
+
     void onCompletePlayAds();
 }

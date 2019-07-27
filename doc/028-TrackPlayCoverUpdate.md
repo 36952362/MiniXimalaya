@@ -97,5 +97,6 @@
     public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
         container.removeView((View) object);
     }
-
+ 
+##6. 效果图
 ![效果图](./pics/PlayerTrackCover.png)

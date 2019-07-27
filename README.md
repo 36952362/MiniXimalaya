@@ -60,3 +60,5 @@
 ##[027: 播放器标题设置](./doc/027-TrackPlayTitleUpdate.md)
 
 ##[028: 播放器封面设置](./doc/028-TrackPlayCoverUpdate.md)
+
+##[029: 播放器封面和按钮联动](./doc/029-TrackPlayCoverButtonLinkage.md)
