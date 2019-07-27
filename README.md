@@ -48,3 +48,5 @@
 ##[021: 获取播放列表异常情况处理](./doc/021-AlbumDetailExceptionHandle.md)
 
 ##[022:播放器页面布局](./doc/022-TrackPlayerLayout.md)
+
+##[023:喜马拉雅播放器集成](./doc/023-XmPlayerSDKIntegration.md)

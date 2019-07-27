@@ -118,7 +118,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
 
         //取消注册，避免内存泄露
         if(null != recommendPresenter) {
-            recommendPresenter.unregisterCallback(this);
+            recommendPresenter.unRegisterCallback(this);
         }
 
     }

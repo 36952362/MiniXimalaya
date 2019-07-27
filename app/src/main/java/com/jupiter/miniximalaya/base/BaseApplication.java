@@ -1,11 +1,13 @@
 package com.jupiter.miniximalaya.base;
 
 import android.app.Application;
+import android.content.Context;
 import android.os.Handler;
 
 import com.jupiter.miniximalaya.utils.LogUtil;
 import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
+import com.ximalaya.ting.android.opensdk.player.XmPlayerManager;
 
 import lombok.Data;
 
@@ -13,6 +15,8 @@ import lombok.Data;
 public class BaseApplication extends Application {
 
     private static Handler handler = null;
+
+    private static Context appContext = null;
 
     public static Handler getHandler(){
         return  handler;
@@ -35,8 +39,18 @@ public class BaseApplication extends Application {
             mXimalaya.init(this ,mAppSecret);
         }
 
+        XmPlayerManager.getInstance(this).init();
+
         handler = new Handler();
+
+        appContext = getBaseContext();
 
         LogUtil.init(getPackageName(), false);
     }
+
+
+    public static Context getAppContext(){
+        return  appContext;
+    }
+
 }

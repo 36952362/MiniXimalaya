@@ -13,7 +13,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -21,6 +20,7 @@ import com.jupiter.miniximalaya.adapters.AlbumDetailAdapter;
 import com.jupiter.miniximalaya.base.BaseActivity;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailCallback;
 import com.jupiter.miniximalaya.presenters.AlbumDetailPresenter;
+import com.jupiter.miniximalaya.presenters.PlayerPresenter;
 import com.jupiter.miniximalaya.utils.DPPXConverter;
 import com.jupiter.miniximalaya.utils.GaussianBlur;
 import com.jupiter.miniximalaya.utils.LogUtil;
@@ -178,7 +178,8 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
     }
 
     @Override
-    public void onItemClick() {
+    public void onItemClick(List<Track> tracks, int position) {
+        PlayerPresenter.getsInstance().setPlayList(tracks, position);
         Intent intent = new Intent(this, TrackPlayerActivity.class);
         startActivity(intent);
     }

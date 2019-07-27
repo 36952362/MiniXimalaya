@@ -1,15 +1,10 @@
 package com.jupiter.miniximalaya.interfaces;
 
-public interface IRecommendPresenter {
+import com.jupiter.miniximalaya.base.IBasePresenter;
+
+public interface IRecommendPresenter extends IBasePresenter<IRecommendCallback> {
 
     //获取推荐内容
-    public void getRecommendList();
-
-    //注册回调类
-    public void registerCallback(IRecommendCallback recommendCallback);
-
-
-    //取消注册
-    public void unregisterCallback(IRecommendCallback recommendCallback);
+    void getRecommendList();
 
 }

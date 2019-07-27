@@ -97,7 +97,7 @@ public class RecommendPresenter implements IRecommendPresenter {
     }
 
     @Override
-    public void unregisterCallback(IRecommendCallback recommendCallback) {
+    public void unRegisterCallback(IRecommendCallback recommendCallback) {
 
         if(recommendCallbackList.contains(recommendCallback)){
             recommendCallbackList.remove(recommendCallback);

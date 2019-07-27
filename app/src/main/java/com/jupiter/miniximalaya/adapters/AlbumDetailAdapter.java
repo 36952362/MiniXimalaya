@@ -1,6 +1,5 @@
 package com.jupiter.miniximalaya.adapters;
 
-import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -9,7 +8,6 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import com.jupiter.miniximalaya.AlbumDetailActivity;
 import com.jupiter.miniximalaya.R;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 
@@ -32,7 +30,15 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
     }
 
     @Override
-    public void onBindViewHolder(@NonNull AlbumDetailAdapter.InnerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull AlbumDetailAdapter.InnerHolder holder, final int position) {
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (onItemClickListener != null) {
+                    onItemClickListener.onItemClick(tracks, position);
+                }
+            }
+        });
         holder.setData(tracks.get(position), position);
     }
 
@@ -50,14 +56,6 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
     public class InnerHolder extends RecyclerView.ViewHolder {
         public InnerHolder(@NonNull View itemView) {
             super(itemView);
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    if (onItemClickListener != null) {
-                        onItemClickListener.onItemClick();
-                    }
-                }
-            });
         }
 
         public void setData(Track track, int position) {
@@ -83,6 +81,6 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
 
     public interface OnItemClickListener{
 
-        void onItemClick();
+        void onItemClick(List<Track> tracks, int position);
     }
 }

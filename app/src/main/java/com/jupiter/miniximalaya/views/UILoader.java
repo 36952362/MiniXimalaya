@@ -109,5 +109,5 @@ public abstract class UILoader extends FrameLayout {
 
     public interface  OnRetryClickListener{
         void onRetry();
-    };
+    }
 }

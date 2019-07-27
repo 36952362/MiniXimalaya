@@ -1,14 +1,12 @@
 package com.jupiter.miniximalaya.interfaces;
 
-public interface IAlbumDetailPresenter {
+import com.jupiter.miniximalaya.base.IBasePresenter;
+
+public interface IAlbumDetailPresenter extends IBasePresenter<IAlbumDetailCallback> {
 
     void pull2RefreshMore();
 
     void loadMore();
 
     void getAlbumDetail(int albumId, int pager);
-
-    void registerCallback(IAlbumDetailCallback albumDetailCallback);
-
-    void unRegisterCallback(IAlbumDetailCallback albumDetailCallback);
 }

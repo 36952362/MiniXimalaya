@@ -6,6 +6,8 @@ import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 
+import com.jupiter.miniximalaya.presenters.PlayerPresenter;
+
 public class TrackPlayerActivity extends AppCompatActivity {
 
     @Override
