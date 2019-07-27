@@ -1,16 +1,20 @@
 package com.jupiter.miniximalaya;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import android.graphics.Color;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
+import com.jupiter.miniximalaya.adapters.TrackPlayPageAdapter;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
 import com.jupiter.miniximalaya.presenters.PlayerPresenter;
+import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
@@ -30,6 +34,12 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     private SeekBar progressBar;
     private int currentProgress = 0;
     private boolean userTouched = false;
+    private ImageView playPrevious;
+    private ImageView playNext;
+    private TextView tvPlayTitle;
+    private String trackTitle;
+    private ViewPager playCoverViewPager;
+    private TrackPlayPageAdapter trackPlayPageAdapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,6 +52,8 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
 
         initView();
         initEvent();
+
+        playerPresenter.getPlayList();
         startPlay();
     }
 
@@ -92,6 +104,28 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
                 }
             });
         }
+
+        if (playPrevious != null) {
+            playPrevious.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (playerPresenter != null) {
+                        playerPresenter.playPre();
+                    }
+                }
+            });
+        }
+
+        if (playNext != null) {
+            playNext.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    if (playerPresenter != null) {
+                        playerPresenter.playNext();
+                    }
+                }
+            });
+        }
     }
 
     private void initView() {
@@ -99,6 +133,16 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         escapedTimeTextView = findViewById(R.id.tv_escaped_time);
         totalTimeTextView = findViewById(R.id.tv_total_time);
         progressBar = findViewById(R.id.sb_play_progress);
+        playPrevious = findViewById(R.id.iv_previous);
+        playNext = findViewById(R.id.iv_next);
+        tvPlayTitle = findViewById(R.id.tv_track_title);
+        if (!TextUtils.isEmpty(trackTitle)) {
+            tvPlayTitle.setText(trackTitle);
+        }
+
+        playCoverViewPager = findViewById(R.id.vp_track_cover);
+        trackPlayPageAdapter = new TrackPlayPageAdapter();
+        playCoverViewPager.setAdapter(trackPlayPageAdapter);
     }
 
     @Override
@@ -151,7 +195,9 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onPlayList(List<Track> tracks) {
-
+        if (trackPlayPageAdapter != null) {
+            trackPlayPageAdapter.setData(tracks);
+        }
     }
 
     @Override
@@ -164,7 +210,7 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         String totalDuration;
         String escapedTime;
         progressBar.setMax(total);
-        if (total >= 60 * 60 * 100) {
+        if (total >= 60 * 60 * 1000) {
             totalDuration = hourFormat.format(total);
             escapedTime = hourFormat.format(currProgress);
         }
@@ -187,6 +233,21 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
             }
         }
 
+    }
+
+    @Override
+    public void onPlayTitle(String trackTitle) {
+        this.trackTitle = trackTitle;
+    }
+
+    @Override
+    public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel) {
+        if (curModel != null && curModel instanceof Track) {
+            Track track = (Track)curModel;
+            if (tvPlayTitle != null) {
+                tvPlayTitle.setText(track.getTrackTitle());
+            }
+        }
     }
 
     @Override

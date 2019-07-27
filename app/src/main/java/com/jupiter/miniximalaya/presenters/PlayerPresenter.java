@@ -28,6 +28,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
     private boolean isPlayListSet = false;
 
     private List<IPlayerCallback> playerCallbacks = new ArrayList<>();
+    private String trackTitle;
 
     private PlayerPresenter(){
         xmPlayerManager = XmPlayerManager.getInstance(BaseApplication.getAppContext());
@@ -51,6 +52,8 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
         if (xmPlayerManager != null) {
             xmPlayerManager.setPlayList(tracks,currentIndex);
             isPlayListSet = true;
+            Track track = tracks.get(currentIndex);
+            trackTitle = track.getTrackTitle();
         }else {
             LogUtil.e(TAG, "xmPlayerManager is null");
         }
@@ -84,12 +87,16 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     @Override
     public void playPre() {
-
+        if (xmPlayerManager != null) {
+            xmPlayerManager.playPre();
+        }
     }
 
     @Override
     public void playNext() {
-
+        if (xmPlayerManager != null) {
+            xmPlayerManager.playNext();
+        }
     }
 
     @Override
@@ -99,7 +106,12 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     @Override
     public void getPlayList() {
-
+        if (xmPlayerManager != null) {
+            List<Track> playList = xmPlayerManager.getPlayList();
+            for (IPlayerCallback playerCallback : playerCallbacks) {
+                playerCallback.onPlayList(playList);
+            }
+        }
     }
 
     @Override
@@ -116,7 +128,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     @Override
     public void registerCallback(IPlayerCallback playerCallback) {
-
+        playerCallback.onPlayTitle(trackTitle);
         if (!playerCallbacks.contains(playerCallback)) {
             playerCallbacks.add(playerCallback);
         }
@@ -165,8 +177,10 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
     }
 
     @Override
-    public void onSoundSwitch(PlayableModel playableModel, PlayableModel playableModel1) {
-
+    public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel) {
+        for (IPlayerCallback playerCallback : playerCallbacks) {
+            playerCallback.onSoundSwitch(lastModel, curModel);
+        }
     }
 
     @Override

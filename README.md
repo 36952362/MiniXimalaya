@@ -56,3 +56,7 @@
 ##[025: 播放器播放时间和总时间显示](./doc/025-TrackPlayTotalDurationAndSeekBar.md)
 
 ##[026: 播放器进度条设置](./doc/026-TrackPlayTotalDuration.md)
+
+##[027: 播放器标题设置](./doc/027-TrackPlayTitleUpdate.md)
+
+##[028: 播放器封面设置](./doc/028-TrackPlayCoverUpdate.md)
