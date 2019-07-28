@@ -1,8 +1,5 @@
 package com.jupiter.miniximalaya;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.viewpager.widget.ViewPager;
-
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
@@ -11,6 +8,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.SeekBar;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.ViewPager;
 
 import com.jupiter.miniximalaya.adapters.TrackPlayPageAdapter;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
@@ -21,7 +21,14 @@ import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import java.text.SimpleDateFormat;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+
+import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl.PlayMode.PLAY_MODEL_LIST;
+import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP;
+import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl.PlayMode.PLAY_MODEL_RANDOM;
+import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl.PlayMode.PLAY_MODEL_SINGLE_LOOP;
 
 public class TrackPlayerActivity extends AppCompatActivity implements View.OnClickListener, IPlayerCallback {
 
@@ -42,6 +49,19 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     private String trackTitle;
     private ViewPager playCoverViewPager;
     private TrackPlayPageAdapter trackPlayPageAdapter;
+    private ImageView playMode;
+
+    private XmPlayListControl.PlayMode currentPlayMode = PLAY_MODEL_LIST;
+
+    private static Map<XmPlayListControl.PlayMode, XmPlayListControl.PlayMode> sPlayMode = new HashMap<>();
+
+    static {
+        sPlayMode.put(PLAY_MODEL_LIST, PLAY_MODEL_LIST_LOOP);
+        sPlayMode.put(PLAY_MODEL_LIST_LOOP, PLAY_MODEL_RANDOM);
+        sPlayMode.put(PLAY_MODEL_RANDOM, PLAY_MODEL_SINGLE_LOOP);
+        sPlayMode.put(PLAY_MODEL_SINGLE_LOOP, PLAY_MODEL_LIST);
+    }
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -157,8 +177,46 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
                     return false;
                 }
             });
-
         }
+
+        if (playMode != null) {
+            playMode.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    switchPlayMode();
+                }
+            });
+        }
+
+    }
+
+    private void switchPlayMode() {
+
+        XmPlayListControl.PlayMode nextPlayMode = sPlayMode.get(currentPlayMode);
+        if (playerPresenter != null) {
+            playerPresenter.setPlayMode(nextPlayMode);
+            currentPlayMode = nextPlayMode;
+            updatePlayModeImage();
+        }
+    }
+
+    private void updatePlayModeImage() {
+        int resId = R.drawable.selector_player_mode_list;
+        switch (currentPlayMode){
+            case PLAY_MODEL_LIST_LOOP:
+                resId = R.drawable.selector_player_mode_list_loop;
+                break;
+            case PLAY_MODEL_LIST:
+                resId = R.drawable.selector_player_mode_list;
+                break;
+            case PLAY_MODEL_RANDOM:
+                resId = R.drawable.selector_player_mode_random;
+                break;
+            case PLAY_MODEL_SINGLE_LOOP:
+                resId = R.drawable.selector_player_mode_loop_one;
+        }
+
+        playMode.setImageResource(resId);
 
     }
 
@@ -178,6 +236,8 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         playCoverViewPager = findViewById(R.id.vp_track_cover);
         trackPlayPageAdapter = new TrackPlayPageAdapter();
         playCoverViewPager.setAdapter(trackPlayPageAdapter);
+
+        playMode = findViewById(R.id.iv_play_mode);
     }
 
     @Override

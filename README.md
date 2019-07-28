@@ -64,3 +64,5 @@
 ##[029: 播放器封面和按钮联动](./doc/029-TrackPlayCoverButtonLinkage.md)
 
 ##[030: 播放器按钮效果变化](./doc/030-TrackPlayButtonEffectChange.md)
+
+##[031: 播放器播放模式的设置](./doc/031-TrackPlayModeSetting.md)
