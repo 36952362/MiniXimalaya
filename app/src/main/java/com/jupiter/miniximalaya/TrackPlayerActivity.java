@@ -56,7 +56,6 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         initEvent();
 
         playerPresenter.getPlayList();
-        startPlay();
     }
 
     private void startPlay() {
@@ -168,6 +167,7 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         escapedTimeTextView = findViewById(R.id.tv_escaped_time);
         totalTimeTextView = findViewById(R.id.tv_total_time);
         progressBar = findViewById(R.id.sb_play_progress);
+
         playPrevious = findViewById(R.id.iv_previous);
         playNext = findViewById(R.id.iv_next);
         tvPlayTitle = findViewById(R.id.tv_track_title);
@@ -195,21 +195,21 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onPlayStart() {
         if (playImageView!=null) {
-            playImageView.setImageResource(R.mipmap.stop);
+            playImageView.setImageResource(R.drawable.selector_player_stop);
         }
     }
 
     @Override
     public void onPlayPause() {
         if (playImageView!=null) {
-            playImageView.setImageResource(R.mipmap.play);
+            playImageView.setImageResource(R.drawable.selector_player_play);
         }
     }
 
     @Override
     public void onPlayStop() {
         if (playImageView != null) {
-            playImageView.setImageResource(R.mipmap.stop);
+            playImageView.setImageResource(R.drawable.selector_player_stop);
         }
     }
 

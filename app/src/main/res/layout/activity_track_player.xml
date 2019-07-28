@@ -94,7 +94,7 @@
             app:layout_constraintEnd_toStartOf="@id/iv_play"
             app:layout_constraintTop_toBottomOf="@id/tv_escaped_time"
             android:layout_marginTop="20dp"
-            android:src="@mipmap/previous"
+            android:src="@drawable/selector_player_previous"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
@@ -105,12 +105,12 @@
             app:layout_constraintStart_toEndOf="@id/iv_previous"
             app:layout_constraintEnd_toStartOf="@id/iv_next"
             app:layout_constraintTop_toBottomOf="@id/tv_escaped_time"
-            android:src="@mipmap/play"
+            android:src="@drawable/selector_player_play"
             tools:srcCompat="@tools:sample/avatars" />
 
         <ImageView
             android:id="@+id/iv_next"
-            android:src="@mipmap/next"
+            android:src="@drawable/selector_player_next"
             android:layout_width="25dp"
             android:layout_height="25dp"
             android:layout_marginTop="20dp"

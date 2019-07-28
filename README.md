@@ -62,3 +62,5 @@
 ##[028: 播放器封面设置](./doc/028-TrackPlayCoverUpdate.md)
 
 ##[029: 播放器封面和按钮联动](./doc/029-TrackPlayCoverButtonLinkage.md)
+
+##[030: 播放器按钮效果变化](./doc/030-TrackPlayButtonEffectChange.md)
