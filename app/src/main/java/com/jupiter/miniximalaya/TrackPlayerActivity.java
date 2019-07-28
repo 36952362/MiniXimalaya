@@ -69,10 +69,9 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         setContentView(R.layout.activity_track_player);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
+        initView();
         playerPresenter = PlayerPresenter.getsInstance();
         playerPresenter.registerCallback(this);
-
-        initView();
         initEvent();
 
         playerPresenter.getPlayList();
@@ -195,8 +194,6 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         XmPlayListControl.PlayMode nextPlayMode = sPlayMode.get(currentPlayMode);
         if (playerPresenter != null) {
             playerPresenter.setPlayMode(nextPlayMode);
-            currentPlayMode = nextPlayMode;
-            updatePlayModeImage();
         }
     }
 
@@ -297,7 +294,8 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
 
     @Override
     public void onPlayModeChanged(XmPlayListControl.PlayMode playMode) {
-
+        currentPlayMode = playMode;
+        updatePlayModeImage();
     }
 
     @Override

@@ -61,3 +61,59 @@
         }
         playMode.setImageResource(resId);
     }
+    
+##4. 播放模式持久化
+用户设置的播放模式要持久化，这样用户切换到其他的页面或退出重启后就可以继续使用最后一次设置的播放模式. 这里使用SharePreference方式存储用户设置的播放模式。
+
+**playerPresenter.java:**
+
+	private XmPlayListControl.PlayMode currentPlayMode = PLAY_MODEL_LIST;
+
+    private static String PLAY_MODE_NAME = "PlayMode";
+    private static String PLAY_MODE_KEY = "CurrentPlayMode";
+    private final SharedPreferences sharedPreferences;
+
+    private final int PLAY_MODE_LIST_INT = 0;
+    private final int PLAY_MODE_LIST_LOOP_INT = 1;
+    private final int PLAY_MODE_RANDOM_INT = 2;
+    private final int PLAY_MODE_SINGLE_LOOP_INT = 3;
+
+	private PlayerPresenter(){
+        xmPlayerManager = XmPlayerManager.getInstance(BaseApplication.getAppContext());
+        xmPlayerManager.addAdsStatusListener(this);
+        xmPlayerManager.addPlayerStatusListener(this);
+        xmPlayerManager.setPlayMode(currentPlayMode);
+        sharedPreferences = BaseApplication.getAppContext().getSharedPreferences(PLAY_MODE_NAME, Context.MODE_PRIVATE);
+    }
+ 
+在模式切换时存储切换后的模式
+
+	public void setPlayMode(XmPlayListControl.PlayMode playMode) {
+	    if (xmPlayerManager != null) {
+	        currentPlayMode = playMode;
+	        xmPlayerManager.setPlayMode(playMode);
+	
+	        for (IPlayerCallback playerCallback : playerCallbacks) {
+	            playerCallback.onPlayModeChanged(playMode);
+	        }
+	
+	        SharedPreferences.Editor edit = sharedPreferences.edit();
+	        edit.putInt(PLAY_MODE_KEY, getIntFromMode(playMode));
+	        edit.commit();
+	    }
+	}
+	
+在播放器页面注册时，获取存储的播放模式
+
+	public void registerCallback(IPlayerCallback playerCallback) {
+        playerCallback.onPlayTitle(trackTitle);
+
+        int playModeInt = sharedPreferences.getInt(PLAY_MODE_KEY, PLAY_MODE_LIST_INT);
+
+        XmPlayListControl.PlayMode playMode = getModeByInt(playModeInt);
+        playerCallback.onPlayModeChanged(playMode);
+
+        if (!playerCallbacks.contains(playerCallback)) {
+            playerCallbacks.add(playerCallback);
+        }
+    }
