@@ -1,11 +1,15 @@
 package com.jupiter.miniximalaya;
 
+import android.animation.ValueAnimator;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.text.TextUtils;
+import android.view.Gravity;
 import android.view.MotionEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ImageView;
+import android.widget.PopupWindow;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
@@ -15,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.jupiter.miniximalaya.adapters.TrackPlayPageAdapter;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
 import com.jupiter.miniximalaya.presenters.PlayerPresenter;
+import com.jupiter.miniximalaya.views.PlayListPopupWindow;
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
@@ -62,6 +67,11 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         sPlayMode.put(PLAY_MODEL_SINGLE_LOOP, PLAY_MODEL_LIST);
     }
 
+    private ImageView playListView;
+    private PlayListPopupWindow playListPopupWindow;
+    private ValueAnimator enterAnimator;
+    private ValueAnimator exitAnimator;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -72,9 +82,33 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         initView();
         playerPresenter = PlayerPresenter.getsInstance();
         playerPresenter.registerCallback(this);
+        initAnimator();
         initEvent();
 
         playerPresenter.getPlayList();
+    }
+
+    private void initAnimator() {
+
+        enterAnimator = ValueAnimator.ofFloat(1.0f, 0.7f);
+        enterAnimator.setDuration(500);
+        enterAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                updateBgAlpha((float)valueAnimator.getAnimatedValue());
+            }
+        });
+
+        exitAnimator = ValueAnimator.ofFloat(0.7f, 1.0f);
+        exitAnimator.setDuration(500);
+        exitAnimator.addUpdateListener(new ValueAnimator.AnimatorUpdateListener() {
+            @Override
+            public void onAnimationUpdate(ValueAnimator valueAnimator) {
+                updateBgAlpha((float)valueAnimator.getAnimatedValue());
+            }
+        });
+
+
     }
 
     private void startPlay() {
@@ -187,6 +221,33 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
             });
         }
 
+
+        if (playListView != null) {
+            playListView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    playListPopupWindow.showAtLocation(view, Gravity.BOTTOM, 0, 0);
+                    enterAnimator.start();
+                }
+            });
+        }
+
+        if (playListPopupWindow != null) {
+            playListPopupWindow.setOnDismissListener(new PopupWindow.OnDismissListener() {
+                @Override
+                public void onDismiss() {
+                    exitAnimator.start();
+                }
+            });
+        }
+
+    }
+
+
+    private void updateBgAlpha(float alpha){
+        WindowManager.LayoutParams attributes = getWindow().getAttributes();
+        attributes.alpha = alpha;
+        getWindow().setAttributes(attributes);
     }
 
     private void switchPlayMode() {
@@ -235,6 +296,10 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         playCoverViewPager.setAdapter(trackPlayPageAdapter);
 
         playMode = findViewById(R.id.iv_play_mode);
+
+        playListView = findViewById(R.id.iv_player_icon_list);
+
+        playListPopupWindow = new PlayListPopupWindow();
     }
 
     @Override

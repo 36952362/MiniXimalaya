@@ -65,4 +65,6 @@
 
 ##[030: 播放器按钮效果变化](./doc/030-TrackPlayButtonEffectChange.md)
 
-##[031: 播放器播放模式的设置](./doc/031-TrackPlayModeSetting.md)
+##[031: 播放器播放模式设置](./doc/031-TrackPlayModeSetting.md)
+
+##[032: 播放器播放列表设置](./doc/032-TrackPlayListSetting.md)
