@@ -68,3 +68,5 @@
 ##[031: 播放器播放模式设置](./doc/031-TrackPlayModeSetting.md)
 
 ##[032: 播放器播放列表设置](./doc/032-TrackPlayListSetting.md)
+
+##[常见问题及解决](./doc/IssuesAndSolution.md)
