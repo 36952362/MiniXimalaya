@@ -69,4 +69,6 @@
 
 ##[032: 播放器播放列表设置](./doc/032-TrackPlayListSetting.md)
 
+##[033: 播放器列表窗口关闭按钮功能](./doc/033-PlayerListCloseButton.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)
