@@ -355,6 +355,10 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         if (trackPlayPageAdapter != null) {
             trackPlayPageAdapter.setData(tracks);
         }
+
+        if (playListPopupWindow != null) {
+            playListPopupWindow.setData(tracks);
+        }
     }
 
     @Override

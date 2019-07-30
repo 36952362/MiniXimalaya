@@ -71,4 +71,6 @@
 
 ##[033: 播放器列表窗口关闭按钮功能](./doc/033-PlayerListCloseButton.md)
 
+##[034: 播放器列表数据绑定](./doc/034-PlayerListDataBinding.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

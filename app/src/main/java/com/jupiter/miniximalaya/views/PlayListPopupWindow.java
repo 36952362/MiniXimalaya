@@ -8,13 +8,22 @@ import android.view.ViewGroup;
 import android.widget.PopupWindow;
 import android.widget.TextView;
 
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.jupiter.miniximalaya.R;
+import com.jupiter.miniximalaya.adapters.TrackPlayListAdapter;
 import com.jupiter.miniximalaya.base.BaseApplication;
+import com.ximalaya.ting.android.opensdk.model.track.Track;
+
+import java.util.List;
 
 public class PlayListPopupWindow extends PopupWindow {
 
     private final View playListView;
     private TextView closeView;
+    private RecyclerView playListRecycleView;
+    private final TrackPlayListAdapter trackPlayListAdapter;
 
     public PlayListPopupWindow(){
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -31,6 +40,12 @@ public class PlayListPopupWindow extends PopupWindow {
 
         initView();
         initEvent();
+
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(BaseApplication.getAppContext());
+        playListRecycleView.setLayoutManager(linearLayoutManager);
+
+        trackPlayListAdapter = new TrackPlayListAdapter();
+        playListRecycleView.setAdapter(trackPlayListAdapter);
     }
 
     private void initEvent() {
@@ -41,10 +56,20 @@ public class PlayListPopupWindow extends PopupWindow {
             }
         });
 
+
     }
 
     private void initView() {
 
         closeView = playListView.findViewById(R.id.tv_playlist_close);
+        playListRecycleView = playListView.findViewById(R.id.rv_playlist_container);
+
+    }
+
+    public void setData(List<Track> tracks) {
+
+        if (trackPlayListAdapter != null) {
+            trackPlayListAdapter.setData(tracks);
+        }
     }
 }
