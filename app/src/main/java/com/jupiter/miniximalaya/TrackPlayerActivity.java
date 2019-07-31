@@ -400,6 +400,9 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onPlayTitle(String trackTitle) {
         this.trackTitle = trackTitle;
+        if (!TextUtils.isEmpty(trackTitle)) {
+            tvPlayTitle.setText(trackTitle);
+        }
     }
 
     @Override
@@ -416,6 +419,10 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         }
 
         userTouchedViewPager = false;
+
+        if (playListPopupWindow != null) {
+            playListPopupWindow.setCurrentPlayIndex(currentIndex);
+        }
 
     }
 

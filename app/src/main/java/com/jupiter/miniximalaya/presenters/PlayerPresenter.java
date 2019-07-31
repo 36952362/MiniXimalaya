@@ -51,6 +51,10 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
     private final int PLAY_MODE_RANDOM_INT = 2;
     private final int PLAY_MODE_SINGLE_LOOP_INT = 3;
 
+    private List<Track> tracks = new ArrayList<>();
+    private int currentPlayIndex = 0;
+
+
 
     private PlayerPresenter(){
         xmPlayerManager = XmPlayerManager.getInstance(BaseApplication.getAppContext());
@@ -72,15 +76,9 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
 
     public void setPlayList(List<Track> tracks, int currentIndex){
-
-        if (xmPlayerManager != null) {
-            xmPlayerManager.setPlayList(tracks,currentIndex);
-            isPlayListSet = true;
-            Track track = tracks.get(currentIndex);
-            trackTitle = track.getTrackTitle();
-        }else {
-            LogUtil.e(TAG, "xmPlayerManager is null");
-        }
+        this.tracks.clear();
+        this.tracks.addAll(tracks);
+        this.currentPlayIndex = currentIndex;
     }
 
     public int getIntFromMode(XmPlayListControl.PlayMode playMode){
@@ -196,8 +194,18 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     @Override
     public void registerCallback(IPlayerCallback playerCallback) {
-        playerCallback.onPlayTitle(trackTitle);
 
+        if (!playerCallbacks.contains(playerCallback)) {
+            playerCallbacks.add(playerCallback);
+        }
+
+
+        if (xmPlayerManager != null) {
+            xmPlayerManager.setPlayList(tracks,currentPlayIndex);
+            isPlayListSet = true;
+        }else {
+            LogUtil.e(TAG, "xmPlayerManager is null");
+        }
 
         int playModeInt = sharedPreferences.getInt(PLAY_MODE_KEY, PLAY_MODE_LIST_INT);
 
@@ -205,9 +213,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
         playerCallback.onPlayModeChanged(playMode);
 
 
-        if (!playerCallbacks.contains(playerCallback)) {
-            playerCallbacks.add(playerCallback);
-        }
+
 
     }
 
