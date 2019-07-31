@@ -16,6 +16,7 @@ import com.jupiter.miniximalaya.adapters.TrackPlayListAdapter;
 import com.jupiter.miniximalaya.base.BaseApplication;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlayListPopupWindow extends PopupWindow {
@@ -24,6 +25,7 @@ public class PlayListPopupWindow extends PopupWindow {
     private TextView closeView;
     private RecyclerView playListRecycleView;
     private final TrackPlayListAdapter trackPlayListAdapter;
+    private List<Track> tracks = new ArrayList<>();
 
     public PlayListPopupWindow(){
         super(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -67,7 +69,8 @@ public class PlayListPopupWindow extends PopupWindow {
     }
 
     public void setData(List<Track> tracks) {
-
+        this.tracks.clear();
+        this.tracks = tracks;
         if (trackPlayListAdapter != null) {
             trackPlayListAdapter.setData(tracks);
         }
@@ -77,6 +80,10 @@ public class PlayListPopupWindow extends PopupWindow {
 
         if (trackPlayListAdapter != null) {
             trackPlayListAdapter.setCurrentPlayIndex(currentIndex);
+        }
+
+        if (playListRecycleView != null) {
+            playListRecycleView.scrollToPosition(currentIndex);
         }
     }
 }

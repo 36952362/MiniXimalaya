@@ -65,7 +65,7 @@ public class AlbumDetailAdapter extends RecyclerView.Adapter<AlbumDetailAdapter.
             TextView itemPlayCount = itemView.findViewById(R.id.tv_album_item_play_count);
             TextView itemPlayDuration = itemView.findViewById(R.id.tv_album_item_play_duration);
 
-            itemIndex.setText(position + "");
+            itemIndex.setText(position + 1 + "");
             itemTitle.setText(track.getTrackTitle());
             String updateDate = updateDateFormat.format(track.getUpdatedAt());
             itemDate.setText(updateDate);
