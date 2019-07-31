@@ -72,4 +72,11 @@ public class PlayListPopupWindow extends PopupWindow {
             trackPlayListAdapter.setData(tracks);
         }
     }
+
+    public void setCurrentPlayIndex(int currentIndex) {
+
+        if (trackPlayListAdapter != null) {
+            trackPlayListAdapter.setCurrentPlayIndex(currentIndex);
+        }
+    }
 }

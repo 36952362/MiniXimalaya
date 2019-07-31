@@ -91,6 +91,35 @@
             playListTitle.setTextColor(BaseApplication.getAppContext().getResources().getColor(R.color.play_list_title_color));
         }
     }
-    
-##4. 效果图
+##5. 绑定正在播放的节目
+
+###5.1 播放节目有变化时，喜马拉雅回调onSoundSwitch， 获取当前播放位置currentIndex, 并传递给播放器列表弹出窗口
+
+**TrackPlayerActivity.java:**
+
+	public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel, int currentIndex) {
+      	 ...
+
+        if (playListPopupWindow != null) {
+            playListPopupWindow.setCurrentPlayIndex(currentIndex);
+        }
+    }
+
+###5.2 播放器列表弹出窗口把当前位置传递给适配器
+
+**PlayListPopupWindow.java:**
+
+	public void setCurrentPlayIndex(int currentIndex) {
+        if (trackPlayListAdapter != null) {
+            trackPlayListAdapter.setCurrentPlayIndex(currentIndex);
+        }
+    }
+###5.3 适配器更新界面
+
+	public void setCurrentPlayIndex(int currentIndex) {
+        playingIndex = currentIndex;
+        notifyDataSetChanged();
+    }
+
+##6. 效果图
 ![效果图](./pics/TrackPlayListDataBinding.png)

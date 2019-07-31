@@ -61,6 +61,12 @@ public class TrackPlayListAdapter extends RecyclerView.Adapter<TrackPlayListAdap
         notifyDataSetChanged();
     }
 
+    public void setCurrentPlayIndex(int currentIndex) {
+
+        playingIndex = currentIndex;
+        notifyDataSetChanged();
+    }
+
     public class InnerHolder extends RecyclerView.ViewHolder {
         public InnerHolder(@NonNull View itemView) {
             super(itemView);
