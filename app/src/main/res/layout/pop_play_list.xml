@@ -7,17 +7,50 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
+    <ImageView
+        android:id="@+id/iv_play_mode_switch"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="10dp"
+        android:layout_marginStart="10dp"
+        android:src="@drawable/selector_player_mode_list"
+        tools:srcCompat="@tools:sample/avatars" />
 
     <TextView
-        android:id="@+id/tv_playlist_title"
-        android:layout_width="match_parent"
+        android:id="@+id/tv_playlist_mode_title"
+        android:layout_width="wrap_content"
         android:layout_height="50dp"
-        android:text="播放列表"
+        android:text="@string/play_mode_order"
         android:gravity="center"
+        android:layout_marginStart="10dp"
+        app:layout_constraintStart_toEndOf="@id/iv_play_mode_switch"
         app:layout_constraintBottom_toTopOf="@id/rv_playlist_container"
+        app:layout_constraintTop_toTopOf="parent"/>
+
+    <ImageView
+        android:id="@+id/iv_play_list_sort"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="10dp"
+        app:layout_constraintEnd_toStartOf="@id/tv_playlist_sort"
+        android:src="@drawable/selector_playlist_sort_ascending"
+        tools:srcCompat="@tools:sample/avatars" />
+
+
+    <TextView
+        android:id="@+id/tv_playlist_sort"
+        android:layout_width="wrap_content"
+        android:layout_height="50dp"
+        android:text="@string/play_list_sort_ascending"
+        android:gravity="center"
+        android:layout_marginEnd="20dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/rv_playlist_container"
+        app:layout_constraintTop_toTopOf="parent"/>
 
 
 
@@ -27,7 +60,7 @@
         android:layout_height="300dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintBottom_toTopOf="@id/tv_playlist_close"
-        app:layout_constraintTop_toBottomOf="@id/tv_playlist_title"/>
+        app:layout_constraintTop_toBottomOf="@id/tv_playlist_mode_title"/>
 
     <TextView
         android:id="@+id/tv_playlist_close"

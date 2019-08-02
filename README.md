@@ -73,4 +73,8 @@
 
 ##[034: 播放器列表数据绑定](./doc/034-PlayerListDataBinding.md)
 
+##[035: 播放器弹出窗口播放模式切换](./doc/035-PlayerPopWindowPlayModeSwitch.md)
+
+##[036: 播放器弹出窗口播放顺序切换](./doc/036-PlayerPopWindowPlaySortSwitch.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

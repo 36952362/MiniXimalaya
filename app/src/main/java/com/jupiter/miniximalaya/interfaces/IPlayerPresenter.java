@@ -14,4 +14,6 @@ public interface IPlayerPresenter extends IBasePresenter<IPlayerCallback> {
     void getPlayList();
     void playByIndex(int index);
     void seekTo(int progress);
+
+    void reversePlayList();
 }

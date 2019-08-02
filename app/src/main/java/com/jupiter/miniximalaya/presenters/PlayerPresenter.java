@@ -20,6 +20,7 @@ import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl.PlayMode.PLAY_MODEL_LIST;
@@ -38,7 +39,6 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
     private boolean isPlayListSet = false;
 
     private List<IPlayerCallback> playerCallbacks = new ArrayList<>();
-    private String trackTitle;
 
     private XmPlayListControl.PlayMode currentPlayMode = PLAY_MODEL_LIST;
 
@@ -53,6 +53,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     private List<Track> tracks = new ArrayList<>();
     private int currentPlayIndex = 0;
+    private boolean isAscending = true;
 
 
 
@@ -189,6 +190,24 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
     public void seekTo(int progress) {
         if (xmPlayerManager != null) {
             xmPlayerManager.seekTo(progress);
+        }
+    }
+
+    @Override
+    public void reversePlayList() {
+
+        if (xmPlayerManager != null) {
+            Collections.reverse(tracks);
+            isAscending = !isAscending;
+            currentPlayIndex = tracks.size() - currentPlayIndex - 1;
+            xmPlayerManager.setPlayList(tracks, currentPlayIndex);
+            PlayableModel currSound = xmPlayerManager.getCurrSound();
+
+            for (IPlayerCallback playerCallback : playerCallbacks) {
+                playerCallback.onPlayList(tracks);
+                playerCallback.onSoundSwitch(currSound, currSound, currentPlayIndex);
+                playerCallback.onPlaySortChange(isAscending);
+            }
         }
     }
 

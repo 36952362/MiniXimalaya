@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jupiter.miniximalaya.R;
 import com.jupiter.miniximalaya.base.BaseApplication;
+import com.jupiter.miniximalaya.views.PlayListPopupWindow;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ public class TrackPlayListAdapter extends RecyclerView.Adapter<TrackPlayListAdap
 
     private List<Track> tracks = new ArrayList<>();
     private int playingIndex = 0;
+    private PlayListPopupWindow.PlayItemClickListener playItemClickListener;
 
     @NonNull
     @Override
@@ -32,7 +34,7 @@ public class TrackPlayListAdapter extends RecyclerView.Adapter<TrackPlayListAdap
     }
 
     @Override
-    public void onBindViewHolder(@NonNull InnerHolder holder, int position) {
+    public void onBindViewHolder(@NonNull InnerHolder holder, final int position) {
         Track track = tracks.get(position);
         TextView playListTitle = holder.itemView.findViewById(R.id.tv_play_list_title);
         playListTitle.setText(track.getTrackTitle());
@@ -47,6 +49,13 @@ public class TrackPlayListAdapter extends RecyclerView.Adapter<TrackPlayListAdap
             playListIcon.setVisibility(View.GONE);
             playListTitle.setTextColor(BaseApplication.getAppContext().getResources().getColor(R.color.play_list_title_color));
         }
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                playItemClickListener.onClick(position);
+            }
+        });
 
     }
 
@@ -65,6 +74,10 @@ public class TrackPlayListAdapter extends RecyclerView.Adapter<TrackPlayListAdap
 
         playingIndex = currentIndex;
         notifyDataSetChanged();
+    }
+
+    public void setPlayItemClickListener(PlayListPopupWindow.PlayItemClickListener playItemClickListener) {
+        this.playItemClickListener = playItemClickListener;
     }
 
     public class InnerHolder extends RecyclerView.ViewHolder {

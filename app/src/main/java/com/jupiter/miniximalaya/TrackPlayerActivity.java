@@ -239,6 +239,36 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
                     exitAnimator.start();
                 }
             });
+
+            playListPopupWindow.setPlayItemClickListener(new PlayListPopupWindow.PlayItemClickListener() {
+                @Override
+                public void onClick(int position) {
+                    if (playerPresenter != null) {
+                        playerPresenter.play(position  );
+                    }
+                }
+            });
+
+            playListPopupWindow.setPlayListClickListener(new PlayListPopupWindow.PlayListClickListener() {
+                @Override
+                public void onPlayModeClick() {
+                    switchPlayMode();
+                }
+
+                @Override
+                public void onPlaySortClick() {
+                    switchPlaySort();
+                }
+            });
+        }
+
+    }
+
+
+    private void switchPlaySort(){
+
+        if (playerPresenter != null) {
+            playerPresenter.reversePlayList();
         }
 
     }
@@ -364,6 +394,10 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onPlayModeChanged(XmPlayListControl.PlayMode playMode) {
         currentPlayMode = playMode;
+
+        if (playListPopupWindow != null) {
+            playListPopupWindow.updatePlayModeImage(playMode);
+        }
         updatePlayModeImage();
     }
 
@@ -439,5 +473,10 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onCompletePlayAds() {
 
+    }
+
+    @Override
+    public void onPlaySortChange(boolean isAscending) {
+        playListPopupWindow.setPlayListSort(!isAscending);
     }
 }

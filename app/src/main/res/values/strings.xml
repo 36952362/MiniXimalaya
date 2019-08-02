@@ -13,9 +13,19 @@
     <string name="album_subscribe">+ 订阅</string>
     <string name="album_player_continue">继续播放</string>
     <string name="album_item_select">选集</string>
+    <string name="play_mode_order">顺序播放</string>
+    <string name="play_mode_order_loop">列表循环</string>
+    <string name="play_mode_single">单曲播放</string>
+    <string name="play_mode_single_loop">单曲循环</string>
+    <string name="play_mode_random">随机播放</string>
+    <string name="play_list_sort_ascending">顺序</string>
+    <string name="play_list_sort_descending">逆序</string>
+
+
     <string-array name="indicate_title">
         <item>推荐</item>
         <item>订阅</item>
         <item>历史</item>
     </string-array>
+
 </resources>

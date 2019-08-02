@@ -26,4 +26,6 @@ public interface IPlayerCallback {
     void onAdsStopBuffering();
 
     void onCompletePlayAds();
+
+    void onPlaySortChange(boolean isAscending);
 }
