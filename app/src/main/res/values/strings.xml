@@ -11,7 +11,8 @@
     <string name="recommend_loading">正在玩命加载中...</string>
     <string name="recommend_empty">呜呜~ 没有内容哦！</string>
     <string name="album_subscribe">+ 订阅</string>
-    <string name="album_player_continue">继续播放</string>
+    <string name="album_player_playing">正在播放</string>
+    <string name="album_player_pause">暂停播放</string>
     <string name="album_item_select">选集</string>
     <string name="play_mode_order">顺序播放</string>
     <string name="play_mode_order_loop">列表循环</string>

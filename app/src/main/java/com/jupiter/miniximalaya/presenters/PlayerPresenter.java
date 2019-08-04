@@ -80,6 +80,10 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
         this.tracks.clear();
         this.tracks.addAll(tracks);
         this.currentPlayIndex = currentIndex;
+        if (xmPlayerManager != null && tracks.size() > 0) {
+            xmPlayerManager.setPlayList(tracks,currentPlayIndex);
+            isPlayListSet = true;
+        }
     }
 
     public int getIntFromMode(XmPlayListControl.PlayMode playMode){
@@ -116,6 +120,11 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
         }else {
             return false;
         }
+    }
+
+
+    public boolean hasSetPlayList() {
+        return  isPlayListSet;
     }
 
     public void play(int position) {
@@ -218,13 +227,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
             playerCallbacks.add(playerCallback);
         }
 
-
-        if (xmPlayerManager != null) {
-            xmPlayerManager.setPlayList(tracks,currentPlayIndex);
-            isPlayListSet = true;
-        }else {
-            LogUtil.e(TAG, "xmPlayerManager is null");
-        }
+        setPlayList(tracks, currentPlayIndex);
 
         int playModeInt = sharedPreferences.getInt(PLAY_MODE_KEY, PLAY_MODE_LIST_INT);
 

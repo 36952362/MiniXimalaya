@@ -93,7 +93,7 @@
         android:textSize="14sp"
         android:layout_marginTop="10dp"
         android:layout_marginStart="12dp"
-        android:text="@string/album_player_continue"
+        android:text="@string/album_player_playing"
         app:layout_constraintStart_toEndOf="@id/iv_album_item_player"
         app:layout_constraintTop_toTopOf="@id/tv_album_item_play_container" />
 

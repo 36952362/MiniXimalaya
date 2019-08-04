@@ -77,4 +77,6 @@
 
 ##[036: 播放器弹出窗口播放顺序切换](./doc/036-PlayerPopWindowPlaySortSwitch.md)
 
+##[037: 播放状态的绑定](./doc/037-PlayerStautsBinding.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

@@ -20,13 +20,15 @@
         android:supportsRtl="true"
         android:networkSecurityConfig="@xml/network_security_config"
         android:theme="@style/AppTheme">
-        <activity android:name=".TrackPlayerActivity"></activity>
-        <activity android:name=".AlbumDetailActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name=".TrackPlayerActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity android:name=".AlbumDetailActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

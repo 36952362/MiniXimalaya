@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.jupiter.miniximalaya.adapters.AlbumDetailAdapter;
 import com.jupiter.miniximalaya.base.BaseActivity;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailCallback;
+import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
 import com.jupiter.miniximalaya.presenters.AlbumDetailPresenter;
 import com.jupiter.miniximalaya.presenters.PlayerPresenter;
 import com.jupiter.miniximalaya.utils.DPPXConverter;
@@ -28,12 +29,15 @@ import com.jupiter.miniximalaya.views.RoundRectImageView;
 import com.jupiter.miniximalaya.views.UILoader;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
+import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
+import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import java.util.List;
 
-public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCallback, UILoader.OnRetryClickListener, AlbumDetailAdapter.OnItemClickListener {
+public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCallback, UILoader.OnRetryClickListener, AlbumDetailAdapter.OnItemClickListener, IPlayerCallback {
 
     private ImageView albumLargeCover;
     private RoundRectImageView albumSmallCover;
@@ -49,6 +53,10 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
     private FrameLayout albumDetailContainer;
 
     private long albumId = -1;
+    private PlayerPresenter playerPresenter;
+    private ImageView playStatusImageView;
+    private TextView playStatusTextView;
+    private List<Track> tracks;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,7 +69,61 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
 
         albumDetailPresenter = AlbumDetailPresenter.getsInstance();
         albumDetailPresenter.registerCallback(this);
+
+
+        playerPresenter = PlayerPresenter.getsInstance();
+        playerPresenter.registerCallback(this);
+
+        checkAndUpdatePlayStatus(playerPresenter.isPlaying());
+
+        initEvent();
     }
+
+    private void initEvent() {
+
+        playStatusImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkAndUpdatePlayStatus();
+            }
+        });
+
+        playStatusTextView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                checkAndUpdatePlayStatus();
+            }
+        });
+    }
+
+
+    private void checkAndUpdatePlayStatus(){
+        if (playerPresenter != null) {
+            if(playerPresenter.hasSetPlayList()) {
+                updatePlayStatus();
+            }
+            else{
+                setPlayList();
+            }
+        }
+    }
+
+    private void setPlayList() {
+        if(playerPresenter != null){
+            playerPresenter.setPlayList(tracks, 0);
+        }
+        updatePlayStatus();
+    }
+
+    private void updatePlayStatus() {
+        if (playerPresenter.isPlaying()) {
+            playerPresenter.pause();
+        }
+        else{
+            playerPresenter.play();
+        }
+    }
+
 
     private void initView() {
         albumLargeCover = findViewById(R.id.iv_album_large_cover);
@@ -82,6 +144,10 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         uiLoader.setRetryClickListener(this);
         albumDetailContainer.removeAllViews();
         albumDetailContainer.addView(uiLoader);
+
+        playStatusImageView = findViewById(R.id.iv_album_item_player);
+
+        playStatusTextView = findViewById(R.id.id_album_player_status);
     }
 
     private View createSuccessView(ViewGroup container) {
@@ -120,6 +186,7 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         if(null == tracks){
             return;
         }
+        this.tracks = tracks;
         uiLoader.updateUIStatus(UILoader.UIStatus.SUCCESS);
         albumDetailAdapter.setAlbumDetailData(tracks);
     }
@@ -182,5 +249,94 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         PlayerPresenter.getsInstance().setPlayList(tracks, position);
         Intent intent = new Intent(this, TrackPlayerActivity.class);
         startActivity(intent);
+    }
+
+    @Override
+    public void onPlayStart() {
+        checkAndUpdatePlayStatus(true);
+    }
+
+    @Override
+    public void onPlayPause() {
+        checkAndUpdatePlayStatus(false);
+    }
+
+    @Override
+    public void onPlayStop() {
+        checkAndUpdatePlayStatus(false);
+    }
+
+
+    private void checkAndUpdatePlayStatus(boolean isPlaying){
+        if (playStatusImageView != null && playStatusTextView != null) {
+            if(isPlaying){
+                playStatusImageView.setImageResource(R.drawable.selector_playstatus_pause);
+                playStatusTextView.setText(R.string.album_player_playing);
+            }
+            else{
+                playStatusImageView.setImageResource(R.drawable.selector_playstatus_playing);
+                playStatusTextView.setText(R.string.album_player_pause);
+            }
+        }
+    }
+
+    @Override
+    public void onPlayError(XmPlayerException exception) {
+
+    }
+
+    @Override
+    public void onPlayPre() {
+
+    }
+
+    @Override
+    public void onPlayNext() {
+
+    }
+
+    @Override
+    public void onPlayList(List<Track> tracks) {
+
+    }
+
+    @Override
+    public void onPlayModeChanged(XmPlayListControl.PlayMode playMode) {
+
+    }
+
+    @Override
+    public void onPlayProgressChanged(int currentProgress, int total) {
+
+    }
+
+    @Override
+    public void onPlayTitle(String trackTitle) {
+
+    }
+
+    @Override
+    public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel, int currentIndex) {
+
+    }
+
+    @Override
+    public void onAdsStartBuffering() {
+
+    }
+
+    @Override
+    public void onAdsStopBuffering() {
+
+    }
+
+    @Override
+    public void onCompletePlayAds() {
+
+    }
+
+    @Override
+    public void onPlaySortChange(boolean isAscending) {
+
     }
 }

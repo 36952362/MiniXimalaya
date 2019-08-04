@@ -310,6 +310,8 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
 
     private void initView() {
         playImageView = findViewById(R.id.iv_play);
+
+
         escapedTimeTextView = findViewById(R.id.tv_escaped_time);
         totalTimeTextView = findViewById(R.id.tv_total_time);
         progressBar = findViewById(R.id.sb_play_progress);
