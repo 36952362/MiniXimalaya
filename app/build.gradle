@@ -59,4 +59,5 @@ dependencies {
     implementation 'com.squareup.picasso:picasso:2.5.2'
     compileOnly 'org.projectlombok:lombok:1.18.8'
     annotationProcessor 'org.projectlombok:lombok:1.18.8'
+    implementation 'com.lcodecorex:tkrefreshlayout:1.0.7'
 }

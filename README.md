@@ -79,4 +79,8 @@
 
 ##[037: 播放状态的绑定](./doc/037-PlayerStautsBinding.md)
 
+##[038: 绑定开源项目TwinklingRefreshLayout](./doc/038-AlbumDetailIntegrateWithTwinklingRefreshLayout.md)
+
+##[039: 专辑列表加载更多](./doc/039-AlbumDetailLoadMore.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

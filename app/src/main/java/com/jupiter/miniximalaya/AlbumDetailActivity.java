@@ -18,6 +18,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.jupiter.miniximalaya.adapters.AlbumDetailAdapter;
 import com.jupiter.miniximalaya.base.BaseActivity;
+import com.jupiter.miniximalaya.base.BaseApplication;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailCallback;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
 import com.jupiter.miniximalaya.presenters.AlbumDetailPresenter;
@@ -27,6 +28,9 @@ import com.jupiter.miniximalaya.utils.GaussianBlur;
 import com.jupiter.miniximalaya.utils.LogUtil;
 import com.jupiter.miniximalaya.views.RoundRectImageView;
 import com.jupiter.miniximalaya.views.UILoader;
+import com.lcodecore.tkrefreshlayout.RefreshListenerAdapter;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
+import com.lcodecore.tkrefreshlayout.header.bezierlayout.BezierLayout;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
@@ -35,6 +39,7 @@ import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCallback, UILoader.OnRetryClickListener, AlbumDetailAdapter.OnItemClickListener, IPlayerCallback {
@@ -56,7 +61,8 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
     private PlayerPresenter playerPresenter;
     private ImageView playStatusImageView;
     private TextView playStatusTextView;
-    private List<Track> tracks;
+    private List<Track> tracks = new ArrayList<>();
+    private TwinklingRefreshLayout albumDetailRefreshLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +160,9 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
 
         View successView = LayoutInflater.from(this).inflate(R.layout.item_album_detail_list, container, false);
 
+        albumDetailRefreshLayout = successView.findViewById(R.id.albumDetailRefreshLayout);
+
+
         albumDetailInfo = successView.findViewById(R.id.rv_album_detail_info);
         LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
         albumDetailInfo.setLayoutManager(linearLayoutManager);
@@ -171,9 +180,35 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
             }
         });
 
+
+        BezierLayout headView = new BezierLayout(this);
+        albumDetailRefreshLayout.setHeaderView(headView);
+        albumDetailRefreshLayout.setMaxHeadHeight(140);
+
+        albumDetailRefreshLayout.setOnRefreshListener(new RefreshListenerAdapter() {
+            @Override
+            public void onRefresh(TwinklingRefreshLayout refreshLayout) {
+                super.onRefresh(refreshLayout);
+                BaseApplication.getHandler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        albumDetailRefreshLayout.finishRefreshing();
+                    }
+                }, 2000);
+            }
+
+            @Override
+            public void onLoadMore(TwinklingRefreshLayout refreshLayout) {
+                super.onLoadMore(refreshLayout);
+                isLoadingMore = true;
+                albumDetailPresenter.loadMore();
+            }
+        });
+
         return successView;
     }
 
+    private boolean isLoadingMore = false;
 
     @Override
     protected void onDestroy() {
@@ -186,7 +221,13 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         if(null == tracks){
             return;
         }
-        this.tracks = tracks;
+        if (isLoadingMore) {
+            //完成加载更多
+            albumDetailRefreshLayout.finishLoadmore();
+            isLoadingMore = false;
+        }
+        this.tracks.clear();
+        this.tracks.addAll(tracks);
         uiLoader.updateUIStatus(UILoader.UIStatus.SUCCESS);
         albumDetailAdapter.setAlbumDetailData(tracks);
     }
