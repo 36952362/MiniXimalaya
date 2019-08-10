@@ -5,6 +5,7 @@ import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -63,6 +64,7 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
     private TextView playStatusTextView;
     private List<Track> tracks = new ArrayList<>();
     private TwinklingRefreshLayout albumDetailRefreshLayout;
+    private String trackTitle;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -154,6 +156,7 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         playStatusImageView = findViewById(R.id.iv_album_item_player);
 
         playStatusTextView = findViewById(R.id.id_album_player_status);
+        playStatusTextView.setSelected(true);
     }
 
     private View createSuccessView(ViewGroup container) {
@@ -313,6 +316,9 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
             if(isPlaying){
                 playStatusImageView.setImageResource(R.drawable.selector_playstatus_pause);
                 playStatusTextView.setText(R.string.album_player_playing);
+                if (!TextUtils.isEmpty(trackTitle)) {
+                    playStatusTextView.setText(trackTitle);
+                }
             }
             else{
                 playStatusImageView.setImageResource(R.drawable.selector_playstatus_playing);
@@ -359,6 +365,10 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
     @Override
     public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel, int currentIndex) {
 
+        trackTitle = ((Track)curModel).getTrackTitle();
+        if (!TextUtils.isEmpty(trackTitle)) {
+            playStatusTextView.setText(trackTitle);
+        }
     }
 
     @Override

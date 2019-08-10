@@ -83,4 +83,6 @@
 
 ##[039: 专辑列表加载更多](./doc/039-AlbumDetailLoadMore.md)
 
+##[040: 播放状态跑马灯效果](./doc/040-PlayStatusTipsMarqueeEffective.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)
