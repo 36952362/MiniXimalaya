@@ -1,25 +1,26 @@
 package com.jupiter.miniximalaya.presenters;
 
+import com.jupiter.miniximalaya.api.XimalayaApi;
 import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
 import com.jupiter.miniximalaya.interfaces.IRecommendPresenter;
-import com.jupiter.miniximalaya.utils.Constants;
 import com.jupiter.miniximalaya.utils.LogUtil;
-import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
-import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+
+import lombok.Getter;
 
 public class RecommendPresenter implements IRecommendPresenter {
 
     private static final String TAG = "RecommendPresenter";
 
     private List<IRecommendCallback> recommendCallbackList = new ArrayList<>();
+
+    @Getter
+    private List<Album> currentRecommendList = null;
 
     private RecommendPresenter(){}
 
@@ -41,9 +42,8 @@ public class RecommendPresenter implements IRecommendPresenter {
 
         updateLoading();
 
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(DTransferConstants.LIKE_COUNT, Constants.COUNT_RECOMMEND + "");
-        CommonRequest.getGuessLikeAlbum(map, new IDataCallBack<GussLikeAlbumList>() {
+        XimalayaApi ximalayaApi = XimalayaApi.getsInstance();
+        ximalayaApi.getRecommendList(new IDataCallBack<GussLikeAlbumList>() {
             @Override
             public void onSuccess(GussLikeAlbumList gussLikeAlbumList) {
                 LogUtil.i(TAG, "getGuessLikeAlbum success");
@@ -57,7 +57,6 @@ public class RecommendPresenter implements IRecommendPresenter {
                 handleRecommendError(i, s);
             }
         });
-
     }
 
     private void updateLoading(){
@@ -73,6 +72,7 @@ public class RecommendPresenter implements IRecommendPresenter {
     }
 
     private void handleRecommendList(List<Album> albumList) {
+        this.currentRecommendList = albumList;
         if(albumList.isEmpty()){
             for (IRecommendCallback recommendCallback : recommendCallbackList) {
                 recommendCallback.onEmpty();

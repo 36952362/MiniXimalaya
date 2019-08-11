@@ -1,5 +1,6 @@
 package com.jupiter.miniximalaya.presenters;
 
+import com.jupiter.miniximalaya.api.XimalayaApi;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailCallback;
 import com.jupiter.miniximalaya.interfaces.IAlbumDetailPresenter;
 import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
@@ -65,17 +66,16 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
     }
 
     private void loadData(final boolean isLoadMore){
-        Map<String, String> map = new HashMap<String, String>();
-        map.put(DTransferConstants.ALBUM_ID, albumId + "");
-        map.put(DTransferConstants.SORT, "asc");
-        map.put(DTransferConstants.PAGE, currentPageIndex + "");
-        CommonRequest.getTracks(map, new IDataCallBack<TrackList>() {
+
+        XimalayaApi ximalayaApi = XimalayaApi.getsInstance();
+        ximalayaApi.getAlbumById(albumId, currentPageIndex, new IDataCallBack<TrackList>() {
             @Override
             public void onSuccess(TrackList trackList) {
                 if(null != trackList) {
                     if(isLoadMore){
                         //加载更多，追加到列表后面
                         currentTracks.addAll(trackList.getTracks());
+                        handleLoadFinishResult(trackList.getTracks().size());
                     }
                     else{
                         //刷新，加载到列表前面
@@ -94,6 +94,12 @@ public class AlbumDetailPresenter implements IAlbumDetailPresenter {
                 handleAlbumDetailError(i, s);
             }
         });
+    }
+
+    private void handleLoadFinishResult(int size) {
+        for (IAlbumDetailCallback albumDetailCallback : albumDetailCallbackList) {
+            albumDetailCallback.onLoadMoreFinish(size);
+        }
     }
 
     @Override

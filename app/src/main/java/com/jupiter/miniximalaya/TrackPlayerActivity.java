@@ -19,6 +19,7 @@ import androidx.viewpager.widget.ViewPager;
 import com.jupiter.miniximalaya.adapters.TrackPlayPageAdapter;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
 import com.jupiter.miniximalaya.presenters.PlayerPresenter;
+import com.jupiter.miniximalaya.utils.LogUtil;
 import com.jupiter.miniximalaya.views.PlayListPopupWindow;
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
@@ -37,6 +38,7 @@ import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl
 
 public class TrackPlayerActivity extends AppCompatActivity implements View.OnClickListener, IPlayerCallback {
 
+    private static final String TAG = "TrackPlayerActivity";
     private ImageView playImageView;
     private PlayerPresenter playerPresenter;
 
@@ -76,11 +78,12 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        LogUtil.d(TAG, "currentProgress:" + currentProgress + ", this:" + this);
         setContentView(R.layout.activity_track_player);
         getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION);
         getWindow().setStatusBarColor(Color.TRANSPARENT);
-        initView();
         playerPresenter = PlayerPresenter.getsInstance();
+        initView();
         playerPresenter.registerCallback(this);
         initAnimator();
         initEvent();
@@ -311,10 +314,15 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     private void initView() {
         playImageView = findViewById(R.id.iv_play);
 
+        if (playerPresenter.isPlaying()) {
+            playImageView.setImageResource(R.drawable.selector_player_pause);
+        }
+
 
         escapedTimeTextView = findViewById(R.id.tv_escaped_time);
         totalTimeTextView = findViewById(R.id.tv_total_time);
         progressBar = findViewById(R.id.sb_play_progress);
+
 
         playPrevious = findViewById(R.id.iv_previous);
         playNext = findViewById(R.id.iv_next);
@@ -349,7 +357,7 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onPlayStart() {
         if (playImageView!=null) {
-            playImageView.setImageResource(R.drawable.selector_player_stop);
+            playImageView.setImageResource(R.drawable.selector_player_pause);
         }
     }
 
@@ -363,7 +371,7 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     @Override
     public void onPlayStop() {
         if (playImageView != null) {
-            playImageView.setImageResource(R.drawable.selector_player_stop);
+            playImageView.setImageResource(R.drawable.selector_player_pause);
         }
     }
 
@@ -404,17 +412,17 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onPlayProgressChanged(int currProgress, int total) {
+    public void onPlayProgressChanged(int currentProgress, int total) {
         String totalDuration;
         String escapedTime;
         progressBar.setMax(total);
         if (total >= 60 * 60 * 1000) {
             totalDuration = hourFormat.format(total);
-            escapedTime = hourFormat.format(currProgress);
+            escapedTime = hourFormat.format(currentProgress);
         }
         else{
             totalDuration = minFormat.format(total);
-            escapedTime = minFormat.format(currProgress);
+            escapedTime = minFormat.format(currentProgress);
         }
 
         if (totalTimeTextView != null) {
@@ -427,7 +435,7 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
 
         if (!userTouchedSeekBar) {
             if (progressBar != null) {
-                progressBar.setProgress(currProgress);
+                progressBar.setProgress(currentProgress);
             }
         }
 

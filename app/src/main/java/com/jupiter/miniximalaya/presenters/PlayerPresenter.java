@@ -2,16 +2,19 @@ package com.jupiter.miniximalaya.presenters;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.widget.Toast;
 
-import com.jupiter.miniximalaya.R;
+import com.jupiter.miniximalaya.api.XimalayaApi;
 import com.jupiter.miniximalaya.base.BaseApplication;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
 import com.jupiter.miniximalaya.interfaces.IPlayerPresenter;
 import com.jupiter.miniximalaya.utils.LogUtil;
+import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.advertis.Advertis;
 import com.ximalaya.ting.android.opensdk.model.advertis.AdvertisList;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
+import com.ximalaya.ting.android.opensdk.model.track.TrackList;
 import com.ximalaya.ting.android.opensdk.player.XmPlayerManager;
 import com.ximalaya.ting.android.opensdk.player.advertis.IXmAdsStatusListener;
 import com.ximalaya.ting.android.opensdk.player.constants.PlayerConstants;
@@ -22,6 +25,8 @@ import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
+
+import lombok.Getter;
 
 import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl.PlayMode.PLAY_MODEL_LIST;
 import static com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl.PlayMode.PLAY_MODEL_LIST_LOOP;
@@ -54,7 +59,10 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
     private List<Track> tracks = new ArrayList<>();
     private int currentPlayIndex = 0;
     private boolean isAscending = true;
-
+    @Getter
+    private int currentProgress = 0;
+    @Getter
+    private int total = 0;
 
 
     private PlayerPresenter(){
@@ -164,6 +172,21 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
         }
     }
 
+    public void playByAlbumId(long albumId) {
+        XimalayaApi ximalayaApi = XimalayaApi.getsInstance();
+        ximalayaApi.getAlbumById((int)albumId, 1, new IDataCallBack<TrackList>() {
+            @Override
+            public void onSuccess(TrackList trackList) {
+                setPlayList(trackList.getTracks(), 0);
+            }
+
+            @Override
+            public void onError(int i, String s) {
+                Toast.makeText(BaseApplication.getAppContext(), "请求数据失败", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
     @Override
     public void setPlayMode(XmPlayListControl.PlayMode playMode) {
         if (xmPlayerManager != null) {
@@ -233,10 +256,7 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
         XmPlayListControl.PlayMode playMode = getModeByInt(playModeInt);
         playerCallback.onPlayModeChanged(playMode);
-
-
-
-
+        playerCallback.onPlayProgressChanged(getCurrentProgress(), getTotal());
     }
 
     @Override
@@ -315,6 +335,8 @@ public class PlayerPresenter implements IPlayerPresenter, IXmAdsStatusListener, 
 
     @Override
     public void onPlayProgress(int currentProgress, int total) {
+        this.currentProgress = currentProgress;
+        this.total = total;
         //unit: ms
         for (IPlayerCallback playerCallback : playerCallbacks) {
             playerCallback.onPlayProgressChanged(currentProgress, total);

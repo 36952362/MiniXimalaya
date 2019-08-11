@@ -85,4 +85,8 @@
 
 ##[040: 播放状态跑马灯效果](./doc/040-PlayStatusTipsMarqueeEffective.md)
 
+##[041: 主界面播放面板实现](./doc/041-MainActivityPlayPanelImpliment.md)
+
+##[042: 主界面播放面板首次播放](./doc/042-MainActivityPlayPanelFirstAlbumPlay.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

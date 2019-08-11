@@ -18,4 +18,8 @@ public interface IAlbumDetailCallback {
 
     //没有获取到数据的处理
     void onEmpty();
+
+    void onLoadMoreFinish(int size);
+
+    void onRefreshFinish(int size);
 }

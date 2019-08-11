@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -215,7 +216,13 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
 
     @Override
     protected void onDestroy() {
-        albumDetailPresenter.unRegisterCallback(this);
+        if (albumDetailPresenter != null) {
+            albumDetailPresenter.unRegisterCallback(this);
+        }
+
+        if (playerPresenter != null) {
+            playerPresenter.unRegisterCallback(this);
+        }
         super.onDestroy();
     }
 
@@ -280,6 +287,21 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
     @Override
     public void onEmpty() {
         uiLoader.updateUIStatus(UILoader.UIStatus.EMPTY);
+    }
+
+    @Override
+    public void onLoadMoreFinish(int size) {
+        if (size > 0) {
+            Toast.makeText(this, "成功加载" + size + "条节目", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            Toast.makeText(this, "没有更多节目", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onRefreshFinish(int size) {
+
     }
 
     @Override

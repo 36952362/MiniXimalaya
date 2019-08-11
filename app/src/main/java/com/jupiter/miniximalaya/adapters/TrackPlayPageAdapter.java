@@ -1,5 +1,6 @@
 package com.jupiter.miniximalaya.adapters;
 
+import android.text.TextUtils;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,7 +29,9 @@ public class TrackPlayPageAdapter extends PagerAdapter {
         ImageView imageView = view.findViewById(R.id.iv_play_cover);
         Track track = tracks.get(position);
         String playCoverImage = track.getCoverUrlLarge();
-        Picasso.with(view.getContext()).load(playCoverImage).into(imageView);
+        if (!TextUtils.isEmpty(playCoverImage)) {
+            Picasso.with(view.getContext()).load(playCoverImage).into(imageView);
+        }
         return view;
     }
 
