@@ -6,12 +6,19 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <androidx.recyclerview.widget.RecyclerView
-
-        android:background="#fff4f4f4"
-        android:id="@+id/rv_recommend"
-        android:overScrollMode="never"
+    <com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout
+        android:id="@+id/over_scroll_view"
         android:layout_width="match_parent"
-        android:layout_height="match_parent" />
+        android:layout_height="match_parent">
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:background="#fff4f4f4"
+            android:id="@+id/rv_recommend"
+            android:overScrollMode="never"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent" />
+
+    </com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>

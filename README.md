@@ -89,4 +89,6 @@
 
 ##[042: 主界面播放面板首次播放](./doc/042-MainActivityPlayPanelFirstAlbumPlay.md)
 
+##[043: 主界面上下拉回弹效果](./doc/043-MainActivityPureScrollMode.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

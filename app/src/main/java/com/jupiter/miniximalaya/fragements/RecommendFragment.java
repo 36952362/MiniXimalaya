@@ -18,6 +18,7 @@ import com.jupiter.miniximalaya.base.BaseFragment;
 import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
 import com.jupiter.miniximalaya.utils.DPPXConverter;
 import com.jupiter.miniximalaya.views.UILoader;
+import com.lcodecore.tkrefreshlayout.TwinklingRefreshLayout;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import java.util.List;
@@ -67,6 +68,9 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
 
         successView = onLoadLayout(R.layout.fragment_recommend, container);
         recommendRecyclerView = successView.findViewById(R.id.rv_recommend);
+
+        TwinklingRefreshLayout refreshLayout = successView.findViewById(R.id.over_scroll_view);
+        refreshLayout.setPureScrollModeOn();
 
         //设置适配器
         recommendAdapter = new RecommendAdapter();
