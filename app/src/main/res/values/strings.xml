@@ -21,6 +21,8 @@
     <string name="play_mode_random">随机播放</string>
     <string name="play_list_sort_ascending">顺序</string>
     <string name="play_list_sort_descending">逆序</string>
+    <string name="search">搜索</string>
+    <string name="search_hint">请输入专辑关键字</string>
 
 
     <string-array name="indicate_title">

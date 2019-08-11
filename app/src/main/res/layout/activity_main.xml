@@ -35,7 +35,7 @@
             app:layout_constraintTop_toTopOf="parent">
 
             <ImageView
-                android:id="@+id/main_imageView"
+                android:id="@+id/main_search_imageView"
                 android:layout_width="15dp"
                 android:layout_height="15dp"
                 android:background="@mipmap/search_icon"

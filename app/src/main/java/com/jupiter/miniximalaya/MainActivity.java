@@ -13,7 +13,6 @@ import androidx.viewpager.widget.ViewPager;
 
 import com.jupiter.miniximalaya.adapters.MainContentAdapter;
 import com.jupiter.miniximalaya.adapters.MainIndicatorAdapter;
-import com.jupiter.miniximalaya.api.XimalayaApi;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
 import com.jupiter.miniximalaya.presenters.PlayerPresenter;
 import com.jupiter.miniximalaya.presenters.RecommendPresenter;
@@ -41,6 +40,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     private ImageView mainPlayControl;
     private PlayerPresenter playerPresenter;
     private View playPanelContain;
+    private View mainSearch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,16 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
                 }
             });
         }
+
+        if (mainSearch != null) {
+            mainSearch.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    Intent intent = new Intent(MainActivity.this, SearchActivity.class);
+                    startActivity(intent);
+                }
+            });
+        }
     }
 
     private void playFirstAlbum() {
@@ -109,6 +119,7 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         mainAlbumAuthor = findViewById(R.id.tv_album_author);
         mainPlayControl = findViewById(R.id.iv_main_play_icon);
         playPanelContain = findViewById(R.id.playPanelContain);
+        mainSearch = findViewById(R.id.main_search_imageView);
     }
 
     private void initIndicate() {

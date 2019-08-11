@@ -91,4 +91,6 @@
 
 ##[043: 主界面上下拉回弹效果](./doc/043-MainActivityPureScrollMode.md)
 
+##[044: 搜索界面布局和接口定义](./doc/044-SearchLayoutAndInterfaceDefination.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)
