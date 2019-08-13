@@ -14,14 +14,13 @@ import androidx.viewpager.widget.ViewPager;
 import com.jupiter.miniximalaya.adapters.MainContentAdapter;
 import com.jupiter.miniximalaya.adapters.MainIndicatorAdapter;
 import com.jupiter.miniximalaya.interfaces.IPlayerCallback;
-import com.jupiter.miniximalaya.presenters.PlayerPresenter;
 import com.jupiter.miniximalaya.presenters.RecommendPresenter;
+import com.jupiter.miniximalaya.presenters.PlayerPresenter;
 import com.squareup.picasso.Picasso;
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
-import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import net.lucode.hackware.magicindicator.MagicIndicator;
 import net.lucode.hackware.magicindicator.ViewPagerHelper;
@@ -176,21 +175,6 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
     }
 
     @Override
-    public void onPlayError(XmPlayerException exception) {
-
-    }
-
-    @Override
-    public void onPlayPre() {
-
-    }
-
-    @Override
-    public void onPlayNext() {
-
-    }
-
-    @Override
     public void onPlayList(List<Track> tracks) {
 
     }
@@ -202,11 +186,6 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
 
     @Override
     public void onPlayProgressChanged(int currentProgress, int total) {
-
-    }
-
-    @Override
-    public void onPlayTitle(String trackTitle) {
 
     }
 
@@ -229,20 +208,6 @@ public class MainActivity extends FragmentActivity implements IPlayerCallback {
         }
     }
 
-    @Override
-    public void onAdsStartBuffering() {
-
-    }
-
-    @Override
-    public void onAdsStopBuffering() {
-
-    }
-
-    @Override
-    public void onCompletePlayAds() {
-
-    }
 
     @Override
     public void onPlaySortChange(boolean isAscending) {

@@ -349,20 +349,6 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         }
     }
 
-    @Override
-    public void onPlayError(XmPlayerException exception) {
-
-    }
-
-    @Override
-    public void onPlayPre() {
-
-    }
-
-    @Override
-    public void onPlayNext() {
-
-    }
 
     @Override
     public void onPlayList(List<Track> tracks) {
@@ -379,10 +365,6 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
 
     }
 
-    @Override
-    public void onPlayTitle(String trackTitle) {
-
-    }
 
     @Override
     public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel, int currentIndex) {
@@ -393,20 +375,6 @@ public class AlbumDetailActivity extends BaseActivity implements IAlbumDetailCal
         }
     }
 
-    @Override
-    public void onAdsStartBuffering() {
-
-    }
-
-    @Override
-    public void onAdsStopBuffering() {
-
-    }
-
-    @Override
-    public void onCompletePlayAds() {
-
-    }
 
     @Override
     public void onPlaySortChange(boolean isAscending) {

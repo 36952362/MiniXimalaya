@@ -93,4 +93,6 @@
 
 ##[044: 搜索界面布局和接口定义](./doc/044-SearchLayoutAndInterfaceDefination.md)
 
+##[045: 搜索功能实现](./doc/045-SearchFeatureImpliment.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

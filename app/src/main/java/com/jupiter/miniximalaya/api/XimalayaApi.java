@@ -5,7 +5,10 @@ import com.ximalaya.ting.android.opensdk.constants.DTransferConstants;
 import com.ximalaya.ting.android.opensdk.datatrasfer.CommonRequest;
 import com.ximalaya.ting.android.opensdk.datatrasfer.IDataCallBack;
 import com.ximalaya.ting.android.opensdk.model.album.GussLikeAlbumList;
+import com.ximalaya.ting.android.opensdk.model.album.SearchAlbumList;
 import com.ximalaya.ting.android.opensdk.model.track.TrackList;
+import com.ximalaya.ting.android.opensdk.model.word.HotWordList;
+import com.ximalaya.ting.android.opensdk.model.word.SuggestWords;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -43,4 +46,24 @@ public class XimalayaApi {
     }
 
 
+    public void searchByKeyword(String keyword, int currentPage, IDataCallBack<SearchAlbumList> callback) {
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(DTransferConstants.SEARCH_KEY, keyword);
+        map.put(DTransferConstants.CATEGORY_ID, "");
+        map.put(DTransferConstants.PAGE, currentPage + "");
+        map.put(DTransferConstants.PAGE_SIZE, Constants.COUNT_RECOMMEND + "");
+        CommonRequest.getSearchedAlbums(map, callback);
+    }
+
+    public void getHotWords(IDataCallBack<HotWordList> callback){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(DTransferConstants.TOP, Constants.COUNT_RECOMMEND + "");
+        CommonRequest.getHotWords(map, callback);
+    }
+
+    public void getSuggestWord(String keyword, IDataCallBack<SuggestWords> callback){
+        Map<String, String> map = new HashMap<String, String>();
+        map.put(DTransferConstants.SEARCH_KEY, keyword);
+        CommonRequest.getSuggestWord(map, callback);
+    }
 }

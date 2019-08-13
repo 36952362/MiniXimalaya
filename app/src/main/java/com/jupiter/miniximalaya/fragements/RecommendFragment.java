@@ -13,7 +13,7 @@ import com.jupiter.miniximalaya.R;
 import com.jupiter.miniximalaya.AlbumDetailActivity;
 import com.jupiter.miniximalaya.presenters.AlbumDetailPresenter;
 import com.jupiter.miniximalaya.presenters.RecommendPresenter;
-import com.jupiter.miniximalaya.adapters.RecommendAdapter;
+import com.jupiter.miniximalaya.adapters.AlbumAdapter;
 import com.jupiter.miniximalaya.base.BaseFragment;
 import com.jupiter.miniximalaya.interfaces.IRecommendCallback;
 import com.jupiter.miniximalaya.utils.DPPXConverter;
@@ -23,12 +23,12 @@ import com.ximalaya.ting.android.opensdk.model.album.Album;
 
 import java.util.List;
 
-public class RecommendFragment extends BaseFragment implements IRecommendCallback, UILoader.OnRetryClickListener, RecommendAdapter.OnRecommendItemClickListener {
+public class RecommendFragment extends BaseFragment implements IRecommendCallback, UILoader.OnRetryClickListener, AlbumAdapter.OnRecommendItemClickListener {
 
     private static final  String TAG = "RecommendFragment";
     private View successView;
     private RecyclerView recommendRecyclerView;
-    private RecommendAdapter recommendAdapter;
+    private AlbumAdapter recommendAdapter;
     private RecommendPresenter recommendPresenter;
     private UILoader uiLoader;
 
@@ -73,7 +73,7 @@ public class RecommendFragment extends BaseFragment implements IRecommendCallbac
         refreshLayout.setPureScrollModeOn();
 
         //设置适配器
-        recommendAdapter = new RecommendAdapter();
+        recommendAdapter = new AlbumAdapter();
         recommendRecyclerView.setAdapter(recommendAdapter);
 
         recommendAdapter.setOnRecommendItemClickListener(this);

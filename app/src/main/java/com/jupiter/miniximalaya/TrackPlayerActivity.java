@@ -24,7 +24,6 @@ import com.jupiter.miniximalaya.views.PlayListPopupWindow;
 import com.ximalaya.ting.android.opensdk.model.PlayableModel;
 import com.ximalaya.ting.android.opensdk.model.track.Track;
 import com.ximalaya.ting.android.opensdk.player.service.XmPlayListControl;
-import com.ximalaya.ting.android.opensdk.player.service.XmPlayerException;
 
 import java.text.SimpleDateFormat;
 import java.util.HashMap;
@@ -376,21 +375,6 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onPlayError(XmPlayerException exception) {
-
-    }
-
-    @Override
-    public void onPlayPre() {
-
-    }
-
-    @Override
-    public void onPlayNext() {
-
-    }
-
-    @Override
     public void onPlayList(List<Track> tracks) {
         if (trackPlayPageAdapter != null) {
             trackPlayPageAdapter.setData(tracks);
@@ -442,14 +426,6 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
     }
 
     @Override
-    public void onPlayTitle(String trackTitle) {
-        this.trackTitle = trackTitle;
-        if (!TextUtils.isEmpty(trackTitle)) {
-            tvPlayTitle.setText(trackTitle);
-        }
-    }
-
-    @Override
     public void onSoundSwitch(PlayableModel lastModel, PlayableModel curModel, int currentIndex) {
         if (curModel != null && curModel instanceof Track) {
             Track track = (Track)curModel;
@@ -467,21 +443,6 @@ public class TrackPlayerActivity extends AppCompatActivity implements View.OnCli
         if (playListPopupWindow != null) {
             playListPopupWindow.setCurrentPlayIndex(currentIndex);
         }
-
-    }
-
-    @Override
-    public void onAdsStartBuffering() {
-
-    }
-
-    @Override
-    public void onAdsStopBuffering() {
-
-    }
-
-    @Override
-    public void onCompletePlayAds() {
 
     }
 

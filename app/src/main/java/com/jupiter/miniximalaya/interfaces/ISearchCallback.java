@@ -12,7 +12,9 @@ public interface ISearchCallback {
 
     void onLoadMoreResult(List<Album> albums, boolean hasMore);
 
-    void onHotwordResult(List<HotWord> hotWordList);
+    void onHotWordResult(List<HotWord> hotWordList);
 
     void onSuggestResult(List<QueryResult> keyWordList);
+
+    void onError(int errorCode, String errorMsg);
 }

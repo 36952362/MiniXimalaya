@@ -10,7 +10,7 @@ public interface ISearchPresenter extends IBasePresenter<ISearchCallback> {
 
     void loadMore(String keyword);
 
-    void getHotword();
+    void getHotWords();
 
     void getSuggestWords(String keyword);
 }
