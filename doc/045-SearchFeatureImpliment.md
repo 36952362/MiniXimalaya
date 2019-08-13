@@ -98,15 +98,27 @@
         searchPresenter.reSearch();
         uiLoader.updateUIStatus(UILoader.UIStatus.LOADING);
     }
-##6. 效果图
-##6.1 加载页面
+    
+##6. 点击搜索按钮后隐藏软键
+
+	searchBtn.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View view) {
+            ...	
+            InputMethodManager inputMethodManager = (InputMethodManager) SearchActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+            inputMethodManager.hideSoftInputFromWindow(searchInput.getWindowToken(), HIDE_NOT_ALWAYS);
+        }
+    });
+    
+##7. 效果图
+##7.1 加载页面
 ![加载页面](./pics/SearchLoading.png)
 
-##6.2 错误页面
+##7.2 错误页面
 ![错误页面](./pics/SearchError.png)
 
-##6.3 空页面
+##7.3 空页面
 ![空页面](./pics/SearchEmpty.png)
 
-##6.4 成功页面
+##7.4 成功页面
 ![成功页面](./pics/SearchSuccess.png)

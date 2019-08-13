@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
+import android.hardware.input.InputManager;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -11,6 +13,7 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -28,6 +31,8 @@ import com.ximalaya.ting.android.opensdk.model.word.QueryResult;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
 
 public class SearchActivity extends AppCompatActivity implements ISearchCallback, UILoader.OnRetryClickListener {
 
@@ -76,6 +81,10 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
                     searchPresenter.doSearch(searchKeyword);
                     uiLoader.updateUIStatus(UILoader.UIStatus.LOADING);
                 }
+
+                InputMethodManager inputMethodManager = (InputMethodManager) SearchActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
+                inputMethodManager.hideSoftInputFromWindow(searchInput.getWindowToken(), HIDE_NOT_ALWAYS);
+
             }
         });
 
