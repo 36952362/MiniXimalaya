@@ -1,11 +1,7 @@
 package com.jupiter.miniximalaya;
 
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Context;
-import android.hardware.input.InputManager;
+import android.graphics.Rect;
 import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextUtils;
@@ -19,10 +15,15 @@ import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
+
 import com.jupiter.miniximalaya.adapters.AlbumAdapter;
 import com.jupiter.miniximalaya.interfaces.ISearchCallback;
 import com.jupiter.miniximalaya.presenters.SearchPresenter;
-import com.jupiter.miniximalaya.utils.LogUtil;
+import com.jupiter.miniximalaya.utils.DPPXConverter;
 import com.jupiter.miniximalaya.views.FlowTextLayout;
 import com.jupiter.miniximalaya.views.UILoader;
 import com.ximalaya.ting.android.opensdk.model.album.Album;
@@ -33,6 +34,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static android.view.inputmethod.InputMethodManager.HIDE_NOT_ALWAYS;
+import static android.view.inputmethod.InputMethodManager.SHOW_IMPLICIT;
 
 public class SearchActivity extends AppCompatActivity implements ISearchCallback, UILoader.OnRetryClickListener {
 
@@ -47,6 +49,8 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
     private UILoader uiLoader;
     private RecyclerView searchResultImageView;
     private AlbumAdapter albumAdapter;
+    private InputMethodManager inputMethodManager;
+    private View searchInputDelete;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +86,6 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
                     uiLoader.updateUIStatus(UILoader.UIStatus.LOADING);
                 }
 
-                InputMethodManager inputMethodManager = (InputMethodManager) SearchActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
                 inputMethodManager.hideSoftInputFromWindow(searchInput.getWindowToken(), HIDE_NOT_ALWAYS);
 
             }
@@ -96,7 +99,14 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
 
             @Override
             public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {
-                LogUtil.d(TAG, "content:" + charSequence);
+                if (TextUtils.isEmpty(charSequence)) {
+                    if (searchPresenter != null) {
+                        searchPresenter.getHotWords();
+                        searchInputDelete.setVisibility(View.GONE);
+                    }
+                }else{
+                    searchInputDelete.setVisibility(View.VISIBLE);
+                }
             }
 
             @Override
@@ -105,14 +115,42 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
             }
         });
 
+        flowTextLayout.setClickListener(new FlowTextLayout.ItemClickListener() {
+            @Override
+            public void onItemClick(String text) {
+                searchInput.setText(text);
+                searchInput.setSelection(text.length());
+                if (searchPresenter != null) {
+                    searchPresenter.doSearch(text);
+                    uiLoader.updateUIStatus(UILoader.UIStatus.LOADING);
+                }
+            }
+        });
+
+        searchInputDelete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                searchInput.setText("");
+            }
+        });
+
     }
 
     private void initView() {
+        inputMethodManager = (InputMethodManager) SearchActivity.this.getSystemService(Context.INPUT_METHOD_SERVICE);
         searchReturn = findViewById(R.id.iv_search_return);
         searchInput = findViewById(R.id.et_search);
+
+        searchInput.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                searchInput.setFocusable(true);
+                inputMethodManager.showSoftInput(searchInput, SHOW_IMPLICIT);
+            }
+        }, 500);
+
         searchBtn = findViewById(R.id.tv_search);
         searchContain = findViewById(R.id.fl_search);
-        //flowTextLayout = findViewById(R.id.search_flowText);
         if (uiLoader == null) {
             uiLoader = new UILoader(this) {
                 @Override
@@ -126,6 +164,10 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
             }
             searchContain.addView(uiLoader);
         }
+
+        searchInputDelete = findViewById(R.id.search_input_delete);
+        searchInputDelete.setVisibility(View.GONE);
+
     }
 
     private View createSuccessView(ViewGroup container) {
@@ -135,11 +177,25 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
         searchResultImageView.setLayoutManager(linearLayoutManager);
         albumAdapter = new AlbumAdapter();
         searchResultImageView.setAdapter(albumAdapter);
+        searchResultImageView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void getItemOffsets(@NonNull Rect outRect, @NonNull View view, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                outRect.left = DPPXConverter.dip2px(view.getContext(), 5);
+                outRect.right = DPPXConverter.dip2px(view.getContext(), 5);
+                outRect.top = DPPXConverter.dip2px(view.getContext(), 5);
+                outRect.bottom = DPPXConverter.dip2px(view.getContext(), 5);
+            }
+        });
+        flowTextLayout = resultView.findViewById(R.id.search_flowText);
+
         return resultView;
     }
 
     @Override
     public void onSearchResult(List<Album> albums) {
+        inputMethodManager.hideSoftInputFromWindow(searchInput.getWindowToken(), HIDE_NOT_ALWAYS);
+        flowTextLayout.setVisibility(View.GONE);
+        searchResultImageView.setVisibility(View.VISIBLE);
         if (albums.size() == 0) {
             uiLoader.updateUIStatus(UILoader.UIStatus.EMPTY);
         }
@@ -156,11 +212,14 @@ public class SearchActivity extends AppCompatActivity implements ISearchCallback
 
     @Override
     public void onHotWordResult(List<HotWord> hotWordList) {
+        flowTextLayout.setVisibility(View.VISIBLE);
+        searchResultImageView.setVisibility(View.GONE);
+        uiLoader.updateUIStatus(UILoader.UIStatus.SUCCESS);
         List<String> hotWords = new ArrayList<>();
         for (HotWord hotWord : hotWordList) {
             hotWords.add(hotWord.getSearchword());
         }
-        //flowTextLayout.setTextContents(hotWords);
+        flowTextLayout.setTextContents(hotWords);
     }
 
     @Override

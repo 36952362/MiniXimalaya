@@ -95,4 +95,6 @@
 
 ##[045: 搜索功能实现](./doc/045-SearchFeatureImpliment.md)
 
+##[046: 搜索结果和热词整合](./doc/046-SearchResultAndHotWordsIntegration.md)
+
 ##[常见问题及解决](./doc/IssuesAndSolution.md)

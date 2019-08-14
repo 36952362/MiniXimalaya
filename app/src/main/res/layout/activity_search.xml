@@ -24,7 +24,7 @@
         android:layout_width="match_parent"
         android:layout_height="40dp"
         android:background="@drawable/shape_search_bg"
-        android:ems="50"
+        android:maxLength="35"
         android:textCursorDrawable="@drawable/shape_search_cursor_bg"
         android:maxLines="1"
         android:paddingStart="10dp"
@@ -37,6 +37,15 @@
         app:layout_constraintEnd_toStartOf="@id/tv_search"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toEndOf="@id/iv_search_return" />
+
+    <ImageView
+        android:id="@+id/search_input_delete"
+        android:layout_width="35dp"
+        android:layout_height="35dp"
+        android:src="@mipmap/delete"
+        app:layout_constraintTop_toTopOf="@id/et_search"
+        app:layout_constraintEnd_toEndOf="@id/et_search"
+        />
 
     <TextView
         android:id="@+id/tv_search"
@@ -66,19 +75,4 @@
 
     </FrameLayout>
 
-    <!--
-    <com.jupiter.miniximalaya.views.FlowTextLayout
-        android:id="@+id/search_flowText"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:layout_constraintTop_toBottomOf="@id/fl_search"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent"
-        android:layout_marginStart="10dp"
-        android:layout_marginEnd="10dp"
-        android:layout_marginBottom="10dp"
-        android:layout_marginTop="80dp">
-    </com.jupiter.miniximalaya.views.FlowTextLayout>
-    -->
 </androidx.constraintlayout.widget.ConstraintLayout>
